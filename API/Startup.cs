@@ -26,6 +26,14 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CrosPolicy",
+                        builder =>
+                        {
+                            builder.WithOrigins("http://localhost:3000", "http://www.contoso.com");
+                        });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +49,7 @@ namespace API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCors("CrosPolicy");
 
             app.UseEndpoints(endpoints =>
             {
