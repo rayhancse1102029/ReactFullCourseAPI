@@ -1,0 +1,94 @@
+﻿@model RegisterViewModel
+@{
+    Layout = null;
+}
+
+<style>
+    #brand-icon-id i{
+        height: 200px;
+        width: 100px
+    }
+    /*background-color:#002739*/
+</style>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="~/FontAwsome/css/all.min.css" rel="stylesheet" />
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+
+</head>
+
+<body >
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-12 col-md-9" style="margin-top: -20px;">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            @*<div style="background-image:url(/images/Cover.jpg);background-repeat:no-repeat;background-size:contain;" class="col-lg-6 d-none d-lg-block text-center"></div>*@
+                            <div class="col-lg-12">
+                                <div class="p-5" style="padding-bottom: 0 !important">
+                                    <div class="text-center">
+                                        <h3 style="color: black; margin-top: 50px; margin-bottom: 5px; font-weight: bold">WELCOME ATM Website !!!</h3>
+                                        <br/>
+                                        @*<h5 style="color:black;margin-bottom: 12px; font-weight: 700;">Accounting</h5>*@
+                                    </div>
+
+                                    <form class="user"  method="post">
+                                        <div asp-validation-summary="All" class="text-danger"></div>                                       
+                                       
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user" name="Password" id="exampleInputPassword" placeholder="old password">
+                                        </div>    
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user" name="newPass" id="exampleInputPassword" placeholder="new password">
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-info btn-user btn-block">
+                                            Update
+                                        </button>
+                                        
+                                        <div style="text-align: center; margin-top: 15px;">
+                                            <a href="http://www.rayhan-bd.com/" target="_blank" style="font-weight: bold">Developed By @@Rayhan</a>
+                                            <br/>
+                                            <br/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function handleClick(cb) {
+            if (cb.checked == true) {
+                $('#customCheck').val(true);
+            } else {
+                $('#customCheck').val(false);
+            }
+        }
+
+
+    </script>
+
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+
+</body>
+</html>

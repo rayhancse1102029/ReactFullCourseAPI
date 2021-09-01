@@ -1,0 +1,62 @@
+﻿@model NavbarViewModel
+
+<link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+
+<script src="~/js/sb-admin-2.min.js"></script>
+<script type="text/javascript">
+    var value = document.cookie;
+    var lang = value.slice(5, 8);
+    if (lang == 'bn') {
+        $('#dashboard').text('ড্যাশবোর্ড');
+    } else {
+        $('#dashboard').text('Home');
+    }
+</script>
+
+@*<div id="menu">
+
+    </div>*@
+
+<ul class="navbar-nav sidebar sidebar-dark accordion" style="font-weight: bolder; background:#004577;" id="accordionSidebar">
+    <li class="nav-item">
+        <a class="nav-link" id="HomeIcon" href="/Home/Index">
+            <i class="fas fa-fw fa-home"></i>
+            <span style="color:white;" id="dashboard">Home</span>
+        </a>
+    </li>
+
+    @foreach (var module in Model.NavModules.OrderBy(x=>x.shortOrder))
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_module_@module?.Id" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-users-cog" style="color: whitesmoke"></i>
+                <span>@module?.name</span>
+            </a>
+            <div id="collapse_module_@module?.Id" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @foreach (var parent in module.navParents.OrderBy(x=>x.shortOrder))
+                    {
+                        <a class="collapse-item" asp-area="Auth" asp-controller="Navbar" asp-action="NavbarBandWiseItemLoadByParentId" asp-route-parentId="@parent?.Id">@parent?.name</a>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+       
+        
+    });
+</script>
+
+
+

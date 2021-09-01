@@ -1,0 +1,57 @@
+﻿
+
+@{
+    ViewData["Title"] = "Role";
+
+    int i = 1;
+}
+
+<br />
+<section>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="font-weight-bold" style="color: black">Role List</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" id="role_table_list_id">
+                <thead>
+                    <tr>
+                        <th>
+                            Serial No.
+                        </th>
+                        <th>
+                            Role Name
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.GetAllRoles)
+                    {
+                        <tr>
+                            <td>
+                                @i
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function() {
+
+            $("#role_table_list_id").DataTable();
+
+        });
+    </script>
+}
+

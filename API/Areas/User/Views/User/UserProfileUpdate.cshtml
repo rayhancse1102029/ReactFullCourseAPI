@@ -1,0 +1,262 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "UserProfileUpdate";
+    Layout = "~/Views/Shared/_LayoutForUser.cshtml";
+}
+
+<br />
+
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <button type="button" onclick="editProfileFun()" class="btn btn-success float-right">Edit</button>
+                <h5 class="font-weight-bold" style="color: black">Your Details Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table">
+                                    <tr>
+                                        <td style="border-top: none; text-align: center" colspan="2">
+                                            <img src="~/@Model?.user?.imgUrl" class="rounded-circle" style="height: 120px; width: 120px;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>First Name</td>
+                                        @*<td>@Model?.user?.firstName</td>*@
+                                    </tr>
+                                    <tr>
+                                        <td>Last Name</td>
+                                        @*<td>@Model?.user?.lastName</td>*@
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>@Model?.user?.Email</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobile</td>
+                                        <td>@Model?.user?.PhoneNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gender</td>
+                                        @*<td>@Model?.user?.Gender?.name</td>*@
+                                    </tr>
+                                    <tr>
+                                        <td>Salary</td>
+                                        @*<td>@Model?.user?.salary</td>*@
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6" style="display: none" id="edit_form_id">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="font-weight-bold" style="color: black">Update Your Profile</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="myForm" enctype="multipart/form-data">
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">First Name</label>
+                                        <div class="col-md-10">
+                                            @*<input type="text" name="firstName" id="firstName" value="@Model?.user?.firstName" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">Last Name</label>
+                                        <div class="col-md-10">
+                                            @*<input type="text" name="lastName" id="lastName" value="@Model?.user?.lastName" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">Email</label>
+                                        <div class="col-md-10">
+                                            <input type="text" name="Email" id="Email" value="@Model?.user?.Email" readonly="readonly" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">Phone Number</label>
+                                        <div class="col-md-10">
+                                            <input type="text" name="phone" id="phone" value="@Model?.user?.PhoneNumber" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">Gender</label>
+                                        <div class="col-md-10">
+                                            @*<input type="text" value="@Model?.user?.Gender?.name" readonly="readonly" class="form-control" />
+                                            <input type="hidden" name="genderId" id="genderId" value="@Model?.user?.Gender?.Id" />*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">Salary</label>
+                                        <div class="col-md-10">
+                                            @*<input type="text" value="@Model?.user?.salary" readonly="readonly" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-2">Image</label>
+                                        <div class="col-md-10">
+                                            <input type="file" name="img" id="img" class="form-control" />
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <img id="img_preview_tag_id" src="~/@Model?.user?.imgUrl" style="height: 70px; width: 70px; border:2px solid gray; margin: auto" />
+                                    </div>
+                                    <button type="button" onclick="updateFun()" class="btn btn-success float-right" style="margin: auto">Update</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+
+    <script>
+
+        var _URL = window.URL || window.webkitURL;
+
+        $(document).ready(function() {
+
+            $("#img").change(function () {
+
+                var file, img;
+
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        imgPreview(file);
+                    };
+                    img.onerror = function () {
+                        alert("not a valid file: " + file.type);
+                    };
+
+                    img.src = _URL.createObjectURL(file);
+
+                }
+
+            });
+
+
+        });
+
+        function imgPreview(e) {
+
+            var fileSize = (e.size);
+            var file = e;
+            var fileType = file["type"];
+            var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+            if ($.inArray(fileType, validImageTypes) < 0) {
+                swal('Attention!', 'Uploaded photo must be a image type!', 'warning');
+                return false;
+            } else if (fileSize > 300000) {
+                swal('Attention!', 'Photo size must be less then or equal 3MB.', 'warning');
+                return false;
+            }
+
+            readPictureURL(e);
+        }
+        function readPictureURL(input) {
+            //alert(perviewImg);
+            if (input != null) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#img_preview_tag_id').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input);
+            }
+
+        }
+
+        var isEdit = false;
+        function editProfileFun() {
+
+            if (isEdit === false) {
+                $("#edit_form_id").css('display', 'block')
+                isEdit = true;
+            } else {
+                $("#edit_form_id").css('display', 'none')
+                isEdit = false;
+            }
+
+        }
+
+        function updateFun() {
+
+
+            var form = $('#myForm')[0];
+
+            var data = new FormData(form);
+
+            var firstName = $('#firstName').val();
+            var lastName = $('#lastName').val();
+            var phone = $('#phone').val();
+
+            if (firstName == null || firstName == "") {
+
+                swal({
+                    title: 'Invalid Input', text: 'Please enter first name!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                });
+
+                return false;
+            }
+            else if (lastName == null || firstName == "") {
+
+                swal({
+                    title: 'Invalid Input', text: 'Please enter last name!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                });
+
+                return false;
+            }
+            else if (phone == null || firstName == "") {
+
+                swal({
+                    title: 'Invalid Input', text: 'Please enter mobile!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                });
+
+                return false;
+            }
+
+            swal({
+                title: 'Are you sure?', text: 'Do you want update your information!', type: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Yes, Save it!'
+            }).then(function () {
+
+                $.ajax({
+
+                    url: "/User/User/UserProfileUpdate",
+                    type: "post",
+                    data: data,
+                    enctype: 'multipart/form-data',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+
+                        if (response == "success") {
+                            swal({
+                                title: 'Success!', text: 'Saved Successfully!', type: 'success', showCancelButton: false, confirmButtonColor: '#3085d6', confirmButtonText: 'Ok!'
+                            }).then(function () {
+                                location.reload();
+                            });
+
+                        }
+                        else {
+                            swal('Warning!', 'Unable to save!', 'warning');
+                        }
+
+                    }
+                });
+            });
+        }
+
+    </script>
+}
+

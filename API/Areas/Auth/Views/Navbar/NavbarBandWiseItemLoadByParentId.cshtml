@@ -1,0 +1,36 @@
+﻿@model NavbarViewModel
+@{
+    ViewData["Title"] = "Grid Menu Page";
+}
+
+<section style="margin-top:5px;">
+
+    @foreach (var band in Model.NavBands)
+    {
+        <div class="row clearfix">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="col-md-12">
+                            <h4 class="m-0 font-weight-bolder">@band?.name</h4>
+                        </div>
+                    </div>
+                    <div class="card-body row">
+                        @foreach (var itemchid in band.navItems)
+                        {
+                            <div class="col-2">
+                                <div class="form-group text-center card" style="background-color:#efecee;border-color:lightgray;">
+                                    <a class="text-center btn btn-default" asp-area="@itemchid?.area" asp-controller="@itemchid?.controller" asp-action="@itemchid?.action" style="text-decoration:none;">
+                                        <i class="@itemchid.imgClass fa-3x"></i>
+                                        <br /><span style="color: black; font-size: 10pt; font-weight: 400;">@itemchid?.name</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</section>
