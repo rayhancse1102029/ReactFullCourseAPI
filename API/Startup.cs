@@ -1,10 +1,17 @@
 using API.Data;
 using API.Data.Entity;
+using API.Services.Auth;
+using API.Services.Auth.Interfaces;
+using API.Services.AuthServices;
+using API.Services.Helper;
+using API.Services.Helper.Interfaces;
+using API.Sevices.AuthServices.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +47,8 @@ namespace API
                .AddEntityFrameworkStores<ReactDbContext>();
             #endregion
             services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddCors(options =>
             {
@@ -87,6 +96,57 @@ namespace API
                 });
             });
             #endregion ======================= close
+
+
+            #region Auth Related Settings
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+
+                options.LoginPath = "/Auth/Account/Login";
+                options.AccessDeniedPath = "/Auth/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+            #endregion
+
+            #region Areas Config
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.AreaViewLocationFormats.Clear();
+                options.AreaViewLocationFormats.Add("/areas/{2}/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/areas/{2}/Views/Shared/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+            });
+            #endregion
+
+            #region Navbar
+            services.AddScoped<INavbarService, NavbarService>();
+            services.AddScoped<IUserInfoes, UserInfoesService>();
+            services.AddScoped<IFileSaveService, FileSaveService>();
+            #endregion
 
         }
 
