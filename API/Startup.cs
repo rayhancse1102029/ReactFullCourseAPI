@@ -1,5 +1,7 @@
 using API.Data;
 using API.Data.Entity;
+using API.Service.Helper;
+using API.Service.Helper.Interfaces;
 using API.Service.MasterData;
 using API.Service.MasterData.Interfaces;
 using API.Services.Auth;
@@ -130,7 +132,7 @@ namespace API
                 options.LoginPath = "/Login";
                 //options.LoginPath = "/Ecommerce/EcommerceWebSite/Index";
                 options.AccessDeniedPath = "/AccessDenied";
-                //options.SlidingExpiration = true;
+                options.SlidingExpiration = true;
             });
             #endregion
 
@@ -141,6 +143,7 @@ namespace API
                 options.AreaViewLocationFormats.Add("/areas/{2}/Views/{1}/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/areas/{2}/Views/Shared/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+            
             });
             #endregion
 
@@ -158,6 +161,7 @@ namespace API
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ISeedDataService, SeedDataService>();
             services.AddScoped<INavbarService, NavbarService>();
+            services.AddScoped<IFileSaveService, FileSaveService>();
 
             #endregion
 
@@ -197,8 +201,6 @@ namespace API
 
             app.UseEndpoints(endpoints =>
             {
-
-
                 endpoints.MapControllerRoute(
                     name: "MyArea",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

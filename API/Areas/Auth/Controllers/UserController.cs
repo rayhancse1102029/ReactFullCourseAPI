@@ -37,7 +37,7 @@ namespace API.Areas.Auth.Controllers
             return View(model);
         }
 
-        [Route("/api/User/UserDetails/{username}")]
+        //[Route("/api/User/UserDetails/{username}")]
         public async Task<IActionResult> UserDetails(string username)
         {
             ApplicationUser user = await userManager.FindByNameAsync(username);
@@ -45,7 +45,7 @@ namespace API.Areas.Auth.Controllers
             return Json(user);
         }
 
-        [Route("/api/User/LockUser/{username}")]
+        //[Route("/api/User/LockUser/{username}")]
         [HttpGet]
         public async Task<IActionResult> LockUser(string username)
         {
@@ -71,7 +71,7 @@ namespace API.Areas.Auth.Controllers
             return Json(msg);
         }
 
-        [Route("/api/User/ForgotPassword/{username}/{password}")]
+        //[Route("/api/User/ForgotPassword/{username}/{password}")]
         [HttpGet]
         public async Task<IActionResult> ForgotPassword(string username, string password)
         {
