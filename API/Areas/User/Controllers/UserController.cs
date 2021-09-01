@@ -2,8 +2,6 @@
 using API.Data.Entity;
 using API.Areas.Auth.Models;
 using API.Areas.User.Models;
-using API.Data;
-using API.Data.Entity;
 using API.Services.Helper.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +21,7 @@ namespace API.Areas.User.Controllers
         private readonly ReactDbContext _context;
         private readonly IFileSaveService _fileSave;
 
-        public UserController(IFileSaveService _fileSave, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ATMDbContext _context)
+        public UserController(IFileSaveService _fileSave, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ReactDbContext _context)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -97,7 +95,7 @@ namespace API.Areas.User.Controllers
             return View(model);
         }
 
-        [Route("/api/User/UserDetails/{username}")]
+        //[Route("/api/User/UserDetails/{username}")]
         public async Task<IActionResult> UserDetails(string username)
         {
             ApplicationUser user = await _context.Users.Where(x => x.UserName == username).FirstOrDefaultAsync();
@@ -194,7 +192,7 @@ namespace API.Areas.User.Controllers
             return Json(msg);
         }
 
-        [Route("/api/User/LockUser/{username}")]
+        //[Route("/api/User/LockUser/{username}")]
         [HttpGet]
         public async Task<IActionResult> LockUser(string username)
         {
@@ -221,7 +219,7 @@ namespace API.Areas.User.Controllers
             return Json(msg);
         }
 
-        [Route("/api/User/ForgotPassword/{username}/{password}")]
+        //[Route("/api/User/ForgotPassword/{username}/{password}")]
         [HttpGet]
         public async Task<IActionResult> ForgotPassword(string username, string password)
         {

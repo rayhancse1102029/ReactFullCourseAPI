@@ -12,9 +12,9 @@ namespace API.Services.Auth
 {
     public class NavbarService : INavbarService
     {
-        private readonly ATMDbContext _context;
+        private readonly ReactDbContext _context;
 
-        public NavbarService(ATMDbContext _context)
+        public NavbarService(ReactDbContext _context)
         {
             this._context = _context;
         }
@@ -183,7 +183,8 @@ namespace API.Services.Auth
         }
         public async Task<IEnumerable<UserAccessPageSPModel>> GetAllNavbarsFromSP()
         {
-            return await _context.UserAccessPageSPModels.FromSql($"SP_GetAllNavbars").ToListAsync();
+            //return await _context.UserAccessPageSPModels.FromSql($"SP_GetAllNavbars").ToListAsync();
+            return  new List<UserAccessPageSPModel>();
         }  
         public async Task<IEnumerable<UserAccessPage>> GetAllUserAccessPageByRoleId(string roleId)
         {
@@ -237,7 +238,8 @@ namespace API.Services.Auth
 
             //           }
 
-            return await _context.UserAccessPageSPModels.FromSql($"SP_GetAllNavbars").ToListAsync();
+            //return await _context.UserAccessPageSPModels.FromSql($"SP_GetAllNavbars").ToListAsync();
+            return new List<UserAccessPageSPModel>();
         }
 
         public async Task<bool> DeleteAllUserAccessPageByRoleId(string roleId)

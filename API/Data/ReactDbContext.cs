@@ -1,10 +1,12 @@
-﻿using API.Data.Entity;
+﻿using API.Areas.Auth.Models;
+using API.Data.Entity;
 using API.Data.Entity.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +22,13 @@ namespace API.Data
             this._httpContextAccessor = _httpContextAccessor;
         }
 
-        #region User Manage        
+        #region User Manage
+        public DbSet<NavModule> NavModules { get; set; }
+        public DbSet<NavParent> NavParents { get; set; }
+        public DbSet<NavBand> NavBands { get; set; }
+        public DbSet<NavItem> NavItems { get; set; }
+        public DbSet<UserAccessPage> UserAccessPages { get; set; }
+        public DbQuery<UserAccessPageSPModel> UserAccessPageSPModels { get; set; }
         public DbSet<UserLogHistory> UserLogHistories { get; set; }
         #endregion
 

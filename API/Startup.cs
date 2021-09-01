@@ -41,6 +41,15 @@ namespace API
             #endregion
             services.AddControllers();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CrosPolicy",
+                        builder =>
+                        {
+                            builder.WithOrigins("http://localhost:3000", "http://www.contoso.com");
+                        });
+            });
+
             #region === Swagger generator
 
             services.AddSwaggerGen(c =>
@@ -105,10 +114,28 @@ namespace API
                 c.RoutePrefix = "swagger";
             });
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
+
+            app.UseCors("CrosPolicy");
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+
+
+                endpoints.MapControllerRoute(
+                    name: "MyArea",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
+
+
         }
     }
 }

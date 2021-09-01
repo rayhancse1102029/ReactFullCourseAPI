@@ -13,10 +13,10 @@ namespace API.Services.AuthServices
 {
     public class UserInfoesService : IUserInfoes
     {
-        private readonly ATMDbContext _context;
+        private readonly ReactDbContext _context;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public UserInfoesService(ATMDbContext context, RoleManager<IdentityRole> roleManager)
+        public UserInfoesService(ReactDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             this.roleManager = roleManager;

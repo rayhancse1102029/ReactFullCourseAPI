@@ -16,12 +16,12 @@ namespace API.Areas.SecurityRole.Controllers
     //[Authorize(Roles = ("Developer, SuperAdmin, Admin, SubAdmin"))]
     public class RolesController : Controller
     {
-        private readonly ATMDbContext _context;
+        private readonly ReactDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
 
-        public RolesController(ATMDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesController(ReactDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
