@@ -1,23 +1,26 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using API.Data.Entity;
+using API.Data.Entity.Auth;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Data.Entity.Auth
 {
-    public class UserAccessPage : Base
+    [Table("ApplicationRole", Schema= "Auth")]
+    public class UserAccessPage : Base 
     {
         public string roleId { get; set; }
-        public IdentityRole role { get; set; }
-        public int? moduleId { get; set; }
-        public NavModule module { get; set; }
-        public int? parentId { get; set; }
-        public NavParent parent { get; set; }
-        public int? bandId { get; set; }
-        public NavBand band { get; set; }
-        public int? navItemId { get; set; }
-        public NavItem navItem { get; set; }        
-
+        public ApplicationRole role { get; set; }
+        public int? ModuleId { get; set; }
+        public NavModule Module { get; set; }
+        public int? ParentId { get; set; }
+        public NavParent Parent { get; set; }
+        public int? BandId { get; set; }
+        public NavBand Band { get; set; }
+        public int? NavItemId { get; set; }
+        public NavItem NavItem { get; set; }
     }
 }

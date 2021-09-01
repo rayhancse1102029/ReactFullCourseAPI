@@ -1,0 +1,361 @@
+﻿
+@model CompanyViewModel
+
+@{
+    ViewData["Title"] = "Company";
+}
+
+<br/>
+
+<form id="createForm" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header custom_card_header_cls">
+                    <h5 style="color: #fff;">Company Info</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" asp-for="Id" value="0" class="form-control" />
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Phone" class="control-label"></label>
+                                <input asp-for="Phone" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input type="Email" asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CompanyTypeId" class="control-label"></label>
+                                <select asp-for="CompanyTypeId" class="select2 form-control">
+                                    <option value="0">Select . .</option>
+                                    @foreach (var item in Model.CompanyTypes)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CompanyTypeId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BusinessTypeId" class="control-label"></label>
+                                <select asp-for="BusinessTypeId" class="select2 form-control">
+                                    <option value="0">Select . .</option>
+                                    @foreach (var item in Model.BusinessTypes)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="BusinessTypeId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Web" class="control-label"></label>
+                                <input asp-for="Web" class="form-control" />
+                                <span asp-validation-for="Web" class="text-danger"></span>
+                            </div>
+ 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label"></label>
+                                <textarea rows="2" asp-for="Address" class="form-control"></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:15px">
+                        <div class="form-group">
+                            <label asp-for="Logo" class="control-label"></label>
+                            <input asp-for="Logo" class="dropify" type="file" data-height="50%" data-show-errors="true" data-errors-position="outside" accept="image/jpg,image/jpeg,image/x-png,image/gif,image/bmp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="card">
+                <div class="card-header custom_card_header_cls">
+                    <h5 style="color: #fff;">Contact Person Info</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ContactPerson" class="control-label">Name</label>
+                                <input asp-for="ContactPerson" class="form-control datepicker" />
+                                <span asp-validation-for="ContactPerson" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactPersonDesignation" class="control-label">Designation</label>
+                                <input asp-for="ContactPersonDesignation" class="form-control datepicker" />
+                                <span asp-validation-for="ContactPersonDesignation" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ContactPersonEmail" class="control-label">Email</label>
+                                <input asp-for="ContactPersonEmail" class="form-control datepicker" />
+                                <span asp-validation-for="ContactPersonEmail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactPersonNumber" class="control-label">Mobile</label>
+                                <input asp-for="ContactPersonNumber" class="form-control datepicker" />
+                                <span asp-validation-for="ContactPersonNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="createFun()" class="btn btn-success">Save</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header custom_card_header_cls">
+                    <h5 style="color: #fff;">Assign User To Company</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="CompanyId" class="control-label">Name</label>
+                                <select asp-for="CompanyId" class="form-control select2">
+                                    <option value="0">select company</option>
+                                    @foreach(var item in Model.Companies)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Username" class="control-label">Name</label>
+                                <select asp-for="Username" class="form-control select2">
+                                    <option value="0">select user</option>
+                                    @foreach (var item in Model.ApplicationUsers)
+                                    {
+                                        <option value="@item.UserName">@item.UserName (@item?.Email)</option>
+                                    }
+                                </select>
+                            </div>
+                            <div style="text-align:right">
+                                <button type="button" onclick="assignCompanyFun()" class="btn btn-success">&nbsp; &nbsp; &nbsp; Assign &nbsp; &nbsp; &nbsp;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Company Info</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+
+@*<script src="~/Pages/js/company.js"></script>*@
+
+@section Scripts{ 
+
+    <script>
+
+
+        $(".select2").select2({
+            width: '100%'
+        });
+        $('.dropify').dropify({
+            messages: {
+                'default': 'Drag and drop a image of company or click',
+                'replace': 'Drag and drop or click to replace',
+                'remove': 'Remove',
+                'error': 'Ooops, something wrong happended.'
+            }
+        });
+
+        function createFun() {
+            var Name = $.trim($("#Name").val());
+            var Phone = $.trim($("#Phone").val());
+            var Email = $.trim($("#Email").val());
+            var CompanyTypeId = $.trim($("#CompanyTypeId option:selected").val());
+            var BusinessTypeId = $.trim($("#BusinessTypeId option:selected").val());
+            var Address = $.trim($("#Address").val());
+
+            if (Name == null || Name == '') {
+                toastr.error('Please enter name.', 'Error');
+                return false;
+            }
+            else if (Email == null || Email == '') {
+                toastr.error('Please enter email.', 'Error');
+                return false;
+            }
+            else if (Phone == null || Phone == '') {
+                toastr.error('Please enter phone.', 'Error');
+                return false;
+            }
+            else if (CompanyTypeId == 0) {
+                toastr.error('Please select Company Type.', 'Error');
+                return false;
+            }
+            else if (BusinessTypeId == 0) {
+                toastr.error('Please select Business Type.', 'Error');
+                return false;
+            }
+            else if (Address == null || Address == '') {
+                toastr.error('Please enter address.', 'Error');
+                return false;
+            }
+            else {
+
+                let formData = new FormData();
+                formData.append("Logo", $(".dropify[name='Logo']")[0].files[0]);
+                let data = objectifyForm($("#createForm").serializeArray());
+                for (var key in data) {
+                    formData.append(key, data[key]);
+                }
+
+                $.ajax({
+                    url: "/Company",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res == "success") {
+                            toastr.success("Company created successfully", "Success!");
+                            dataTable.fnFilter();
+                        } else {
+                            toastr.error('Something went wrong. Please try again.', 'Error');
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Something went wrong. Please try again.', 'Error');
+                    }
+                });
+            }
+
+        }
+        function detailsFun() {
+            $('#companyDetailsModal').modal('show');
+
+            var clickedElement = $(this);
+
+            var jsonData = {
+                companyId: clickedElement.val()
+            };
+
+            //console.log(jsonData);
+
+            $.ajax({
+                url: "/Core/Company/Details",
+                type: "get",
+                data: jsonData,
+                success: function (response) {
+                    $("#companyDetailsDiv").html(response);
+
+                },
+                error: function (response) {
+                    $('#companyDetailsModal').modal('hide');
+                    toastr.error("Something went wrong. Couldn't get the details.", "Sorry!");
+                }
+            });
+        }
+        var dataTable = $("#dataTable").dataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": false,
+                    "autoWidth": false,
+                    "lengthChange": false,
+                    "ajax": {
+                        "url": "/LoadCompany",
+                        "type": "POST",
+                        "data": function (data) {
+                        },
+                        "complete": function (json) {
+                        }
+                    },
+                    "columns": [
+                        {
+                            "render": function (data, type, full, meta) {
+                                var checkedStatus = "";
+                                if (full.isActive === true) {
+                                    checkedStatus = "<i  class='fas fa-check-circle text-primary'></i>";
+                                }
+                                else {
+                                    checkedStatus = "<i class='fas fa-times-circle text-danger'></i>";
+                                }
+                                checkedStatus = '<span style="font-size: .9rem;">' + checkedStatus + '</span>';
+                                var returnData = '<p>Fullname: ' + full.Name + '<br>Email: ' + full.Email + '<br>Phone: ' + full.Phone + '<br>Web: ' + full.Web + '<br>Users: ' + full.CountUser + '<br>IsActive: ' + checkedStatus +'</p>';
+                                
+                                return returnData;
+
+                            }, "autowidth": true
+                        },
+                        {
+                            "render": function (data, type, full, meta) {
+                                return `<button style="font-size:.8rem;color:black;" class="btn btn-sm btn-rx btn-table editBtnCompany" value="${full.Id}" data-toggle="tooltip" title="Update info!"><i class="fas fa-pencil-alt"></i></button>
+                                    <button style="font-size:.8rem;color:red;" class="btn btn-sm btn-rx btn-table companydeleteBtn" value="${full.Id}" data-toggle="tooltip" title="Delete!"><i class="fa fa-trash"></i></button>`;
+                            }
+                        }
+                    ]
+        });
+
+        function assignCompanyFun() {
+            var companyId = $("#CompanyId option:selected").val();
+            var username = $("#Username option:selected").val();
+            if (companyId < 0) {
+                toastr.error('Please select company and try again.', 'Error');
+            }
+            else if (username == "0") {
+                toastr.error('Please select user and try again.', 'Error');
+            }
+            else {
+                $.ajax({
+                    url: "/AssignCompanyToUser",
+                    type: "get",
+                    data: { CompanyId: companyId, Username: username },
+                    success: function (res) {
+                        if (res == "success") {
+                            toastr.success('Assign successfull!!', 'Success');
+                            $("#CompanyId").select2("val", "0");
+                            $("#Username").select2("val", "0");
+                            dataTable.fnFilter();
+                        }
+                        else {
+                            toastr.error('Something is wrong and try again!!!.', 'Error');
+                        }
+                    }
+                });
+            }
+        }
+
+    </script>
+
+}
+

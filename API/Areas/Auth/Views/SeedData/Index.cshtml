@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br/>
+<div class="card custom_card_cls">
+    <div class="card-header custom_card_header_cls">
+        <button type="button" class="btn btn-danger" onclick="processFun()"> Process</button>
+    </div>
+    <div class="card-body">
+        <div>
+            <p id="message_id"></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    
+    <script>
+
+        function processFun() {
+            console.log("called")
+            $.ajax({
+                url: "/Auth/SeedData/SeedData",
+                type: "post",
+                success: function(res) {
+                    $("#message_id").html(res);
+                }
+            })
+        }
+
+    </script>
+}
+

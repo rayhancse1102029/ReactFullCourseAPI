@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "CreateRole";
+
+    int i = 1;
+    
+}
+
+
+<br/>
+<section>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="font-weight-bold" style="color: black">Create Role Panel</h5><br />
+        </div>
+        <div class="card-body">
+            <div class=" offset-4">
+                <div><h4>@ViewBag.msg</h4></div>
+                <form class="form-inline" asp-area="Auth" asp-controller="Roles" asp-action="CreateRole" method="post">
+                    <label>Role :</label>
+                    <input type="text" class="form-control" name="rolename" value="" placeholder="Please type role name..." />
+                    <input type="submit" class="form-control btn btn-success ml-1" value="Create Role" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<br/>
+<section>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="font-weight-bold" style="color: black">Role List</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" id="role_table_list_id">
+                <thead>
+                <tr>
+                    <th>
+                        Serial No.
+                    </th>
+                    <th>
+                        Role Name
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in ViewBag.GetAllRoles)
+                {
+                    <tr>
+                        <td>
+                            @i
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                    </tr>
+                    i++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+
+            $("#role_table_list_id").DataTable();
+
+        });
+    </script>
+}

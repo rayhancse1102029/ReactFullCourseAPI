@@ -8,21 +8,21 @@ namespace API.Areas.Auth.Models
     public class UserAccessPageSPModel
     {
         //public string roleId { get; set; }
-        public int? moduleId { get; set; }
-        public string module { get; set; }
-        public int? parentId { get; set; }
-        public string parent { get; set; }
-        public int? bandId { get; set; }
-        public string band { get; set; }
-        public int? navItemId { get; set; }
-        public string navItem { get; set; }
-        public int? moduleOrder { get; set; }
-        public int? parentOrder { get; set; }
-        public int? bandOrder { get; set; }
-        public int? navItemOrder { get; set; }
-        public string moduleImg { get; set; }
-        public string parentImg { get; set; }
-        public string bandImg { get; set; }
-        public string navItemImg { get; set; }
+        public int? ModuleId { get; set; }
+        public string Module { get; set; }
+        public int? ParentId { get; set; }
+        public string Parent { get; set; }
+        public int? BandId { get; set; }
+        public string Band { get; set; }
+        public int? NavItemId { get; set; }
+        public string NavItem { get; set; }
+        public int? ModuleOrder { get; set; }
+        public int? ParentOrder { get; set; }
+        public int? BandOrder { get; set; }
+        public int? NavItemOrder { get; set; }
+        public string ModuleImg { get; set; }
+        public string ParentImg { get; set; }
+        public string BandImg { get; set; }
+        public string NavItemImg { get; set; }
     }
 }

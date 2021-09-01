@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Data.Entity.Master;
+using API.Data.Entity.MasterData;
 using Microsoft.AspNetCore.Identity;
+using API.Models.MasterData;
 
 namespace API.Data.Entity
 {
     public class ApplicationUser : IdentityUser
     {
 
-        public string fullName { get; set; }
-        public string employeeCode { get; set; }
-        public string roleName { get; set; }
+        [Required]
+        [MaxLength(12)]
+        public string FullName { get; set; }
+        [Required]
+        public string ImgUrl { get; set; }
+        public string EmployeeCode { get; set; }
+        public int? CompanyId { get; set; }
+        public Company Company { get; set; }
 
-        public bool isVerified { get; set; }
-
-        public bool isActive { get; set; }
-
-        public bool isDeleted { get; set; }
-
-        public DateTime? createdAt { get; set; }
-
-        [MaxLength(120)]
-        public string createdBy { get; set; }
-
-        public DateTime? updatedAt { get; set; }
+        public bool IsVerified { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
 
         [MaxLength(120)]
-        public string updatedBy { get; set; }
-
-        public int? accountType { get; set; }
-
-        public string imgUrl { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        [MaxLength(120)]
+        public string UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int? UpdateCount { get; set; }
 
     }
 }

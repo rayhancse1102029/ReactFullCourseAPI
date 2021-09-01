@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using API.Services.Helper.Interfaces;
+using API.Service.Helper.Interfaces;
 
-namespace API.Services.Helper
+namespace API.Service.Helper
 {
     public class FileSaveService : IFileSaveService
     {
@@ -129,7 +129,7 @@ namespace API.Services.Helper
             string message = "success";
 
             var extention = Path.GetExtension(img.FileName);
-            fileName = Path.Combine("RegisterUserImages", DateTime.Now.Ticks + extention);
+            fileName = Path.Combine("UploadUserImage", DateTime.Now.Ticks + extention);
 
             if (img.Length > 10000000)
             {

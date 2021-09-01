@@ -1,0 +1,91 @@
+﻿
+.custom_card_cls {
+    border: none;
+    background: #EFF4F9 !important;
+}
+.hover_pointer_cls {
+    cursor: pointer
+}
+.custom_card_cls:hover {
+    background: #FFFFFF !important;    
+}
+.custom_card_header_cls{
+    background-color: #0f4c75 !important;
+    padding: 0.4rem 1.25rem !important;
+    color:white;
+}
+.rounded_circle_cls {
+    border-radius: 50% !important;
+}
+.bg_soft_warning_cls {
+    background-color: rgba(243, 199, 77, 0.15) !important;
+    color: #f3c74d !important;
+}
+.bg_soft_success_cls {
+    background-color: rgba(30, 202, 184, 0.15) !important;
+    color: #1ecab8 !important;
+}
+.bg_soft_secondary_cls {
+    background-color: rgba(74, 199, 236, 0.15) !important;
+    color: #4ac7ec !important;
+}
+.bg_soft_pink_cls {
+    background-color: rgba(255, 93, 160, 0.15) !important;
+    color: #ff5da0 !important;
+}
+.div_grow_cls {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    transition: .2s ease;
+}
+.align_self_center_cls {
+    align-self: center !important;
+}
+.far_cls {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+.tab_data_card_cls .data_icon_cls {
+    text-align: center;
+}
+.tab_data_card_cls .data_icon_cls i {
+    font-size: 24px;
+    line-height: 48px;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+}
+.tab_data_card_cls .data_icon_cls svg {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+.font_family_awesome_5_cls {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+}
+.margin_top_10px_cls {
+    margin-top: 10px !important;
+}
+
+.data_table_dropdown_menu_cls {
+    padding: 4px 0 !important;
+    font-size: 15px !important;
+    border-color: #eff2f9 !important;
+    margin: 0 !important;
+}
+.arrow_none_cls:after {
+    border: none !important;
+    margin: 0 !important;
+    display: none !important;
+}
+
+

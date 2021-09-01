@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Services.Helper.Interfaces
+namespace API.Service.Helper.Interfaces
 {
     public interface IFileSaveService
     {

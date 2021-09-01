@@ -1,11 +1,11 @@
 using API.Data;
 using API.Data.Entity;
+using API.Service.MasterData;
+using API.Service.MasterData.Interfaces;
 using API.Services.Auth;
 using API.Services.Auth.Interfaces;
-using API.Services.AuthServices;
-using API.Services.Helper;
-using API.Services.Helper.Interfaces;
-using API.Sevices.AuthServices.Interfaces;
+using API.Services.MasterData;
+using API.Services.MasterData.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,14 +38,15 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             #region Database Settings
             services.AddDbContext<ReactDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DbConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-               .AddEntityFrameworkStores<ReactDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ReactDbContext>();
             #endregion
+
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -102,12 +103,12 @@ namespace API
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
-                options.Password.RequireDigit = true;
+                options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 0;
 
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -126,9 +127,10 @@ namespace API
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromHours(1);
 
-                options.LoginPath = "/Auth/Account/Login";
-                options.AccessDeniedPath = "/Auth/Account/AccessDenied";
-                options.SlidingExpiration = true;
+                options.LoginPath = "/Login";
+                //options.LoginPath = "/Ecommerce/EcommerceWebSite/Index";
+                options.AccessDeniedPath = "/AccessDenied";
+                //options.SlidingExpiration = true;
             });
             #endregion
 
@@ -142,10 +144,21 @@ namespace API
             });
             #endregion
 
-            #region Navbar
+
+            #region Master Data
+
+            services.AddScoped<ISliderService, SliderService>();
+            services.AddScoped<IPaymentModeService, PaymentModeService>();
+            services.AddScoped<IMasterDataService, MasterDataService>();
+
+            #endregion
+
+            #region Auth
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ISeedDataService, SeedDataService>();
             services.AddScoped<INavbarService, NavbarService>();
-            services.AddScoped<IUserInfoes, UserInfoesService>();
-            services.AddScoped<IFileSaveService, FileSaveService>();
+
             #endregion
 
         }
@@ -159,6 +172,7 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
 

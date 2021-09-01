@@ -31,7 +31,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="submit" id="roleIdForm" style="display:none"/>
+                                    <input type="submit" id="roleIdForm" style="display:none" />
                                 </div>
                                 <div class="col-md-3"></div>
                             </div>
@@ -43,95 +43,102 @@
                                 <button type="button" onclick="refresh()" class="btn btn-danger float-right mr-1"><i class="fas fa-sync-alt"></i></button>
                             </div>
                             <div class="col-md-3"></div>
-                        </div>                       
+                        </div>
                         <hr />
                         <br />
-                        <form id="myForm">
-                            <table class="table table-bordered table-striped" style="text-align:center">
-                                <thead>
-                                    <tr>
-                                        <th>#SL</th>
-                                        <th>Module</th>
-                                        <th>Parent</th>
-                                        <th>Band</th>
-                                        <th>Display Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.UserAccessPageSPModels)
-                                    {
+                        @if (User.IsInRole("Developer"))
+                        {
+
+                        }
+                        else
+                        {
+                            <form id="myForm">
+                                <table class="table table-bordered table-striped" style="text-align:center">
+                                    <thead>
                                         <tr>
-                                            <td>@sl</td>
-                                            <td>@item?.module</td>
-                                            <td>@item?.parent</td>
-                                            <td>@item?.band</td>
-                                            <td>@item?.navItem</td>
-                                            <td>
-                                                @if (item?.navItemId > 0)
-                                                {
-                                                    if (Model.UserAccessPages.Where(x => x.navItemId == item.navItemId).FirstOrDefault() != null)
-                                                    {
-                                                        <input type="hidden" name="itemdIdArray" value="@item?.navItemId" id="nav_item_id_@sl" />
-                                                        <input type="checkbox" class="form-control" checked="checked" onclick="itemCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="hidden" value="@item?.navItemId" id="nav_item_id_@sl" />
-                                                        <input type="checkbox" class="form-control" onclick="itemCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-
-                                                }
-                                                else if (item?.bandId > 0)
-                                                {
-                                                    if (Model.UserAccessPages.Where(x => x.bandId == item.bandId).FirstOrDefault() != null)
-                                                    {
-                                                        <input type="hidden" name="bandIdArray" value="@item?.bandId" id="nav_band_id_@sl" />
-                                                        <input type="checkbox" class="form-control" checked="checked" onclick="bandCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="hidden" value="@item?.bandId" id="nav_band_id_@sl" />
-                                                        <input type="checkbox" class="form-control" onclick="bandCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-
-                                                }
-                                                else if (item?.parentId > 0)
-                                                {
-                                                    if (Model.UserAccessPages.Where(x => x.parentId == item.parentId).FirstOrDefault() != null)
-                                                    {
-                                                        <input type="hidden" name="parentIdArray" value="@item?.parentId" id="nav_parent_id_@sl" />
-                                                        <input type="checkbox" class="form-control" checked="checked" onclick="parentCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="hidden" value="@item?.parentId" id="nav_parent_id_@sl" />
-                                                        <input type="checkbox" class="form-control" onclick="parentCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-
-                                                }
-                                                else if (item?.moduleId > 0)
-                                                {
-                                                    if (Model.UserAccessPages.Where(x => x.moduleId == item.moduleId).FirstOrDefault() != null)
-                                                    {
-                                                        <input type="hidden" name="moduleIdArray" value="@item?.moduleId" id="nav_module_id_@sl" />
-                                                        <input type="checkbox" class="form-control" checked="checked" onclick="moduleCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="hidden" value="@item?.moduleId" id="nav_module_id_@sl" />
-                                                        <input type="checkbox" class="form-control" onclick="moduleCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
-                                                    }
-                                                }
-                                            </td>
-
+                                            <th>#SL</th>
+                                            <th>Module</th>
+                                            <th>Parent</th>
+                                            <th>Band</th>
+                                            <th>Display Name</th>
+                                            <th>Action</th>
                                         </tr>
-                                        sl++;
-                                    }
-                                </tbody>
-                            </table>
-                            <input type="hidden" name="roleId" id="hidden_roleId_for_table_submit_id"/>
-                        </form>                       
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.UserAccessPageSPModels)
+                                        {
+                                            <tr>
+                                                <td>@sl</td>
+                                                <td>@item?.Module</td>
+                                                <td>@item?.Parent</td>
+                                                <td>@item?.Band</td>
+                                                <td>@item?.NavItem</td>
+                                                <td>
+                                                    @if (item?.NavItemId > 0)
+                                                    {
+                                                        if (Model.UserAccessPages.Where(x => x.NavItemId == item.NavItemId).FirstOrDefault() != null)
+                                                        {
+                                                            <input type="hidden" name="itemdIdArray" value="@item?.NavItemId" id="nav_item_id_@sl" />
+                                                            <input type="checkbox" class="form-control" checked="checked" onclick="itemCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="@item?.NavItemId" id="nav_item_id_@sl" />
+                                                            <input type="checkbox" class="form-control" onclick="itemCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+
+                                                    }
+                                                    else if (item?.BandId > 0)
+                                                    {
+                                                        if (Model.UserAccessPages.Where(x => x.BandId == item.BandId).FirstOrDefault() != null)
+                                                        {
+                                                            <input type="hidden" name="bandIdArray" value="@item?.BandId" id="nav_band_id_@sl" />
+                                                            <input type="checkbox" class="form-control" checked="checked" onclick="bandCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="@item?.BandId" id="nav_band_id_@sl" />
+                                                            <input type="checkbox" class="form-control" onclick="bandCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+
+                                                    }
+                                                    else if (item?.ParentId > 0)
+                                                    {
+                                                        if (Model.UserAccessPages.Where(x => x.ParentId == item.ParentId).FirstOrDefault() != null)
+                                                        {
+                                                            <input type="hidden" name="parentIdArray" value="@item?.ParentId" id="nav_parent_id_@sl" />
+                                                            <input type="checkbox" class="form-control" checked="checked" onclick="parentCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="@item?.ParentId" id="nav_parent_id_@sl" />
+                                                            <input type="checkbox" class="form-control" onclick="parentCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+
+                                                    }
+                                                    else if (item?.ModuleId > 0)
+                                                    {
+                                                        if (Model.UserAccessPages.Where(x => x.ModuleId == item.ModuleId).FirstOrDefault() != null)
+                                                        {
+                                                            <input type="hidden" name="moduleIdArray" value="@item?.ModuleId" id="nav_module_id_@sl" />
+                                                            <input type="checkbox" class="form-control" checked="checked" onclick="moduleCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="@item?.ModuleId" id="nav_module_id_@sl" />
+                                                            <input type="checkbox" class="form-control" onclick="moduleCheckFun(@sl, this)" style="height:20px; width:20px; margin:auto" />
+                                                        }
+                                                    }
+                                                </td>
+
+                                            </tr>
+                                            sl++;
+                                        }
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="roleId" id="hidden_roleId_for_table_submit_id" />
+                            </form>
+                        }
                     </div>
                 </div>
                 <br />
@@ -146,11 +153,11 @@
         $(document).ready(function () {
 
             $('.data_table_cls').DataTable();
-            if ('@Html.Raw(Model.roleId)' != "no") {
-                $("#roleId").val('@Html.Raw(Model.roleId)');
+            if ('@Html.Raw(Model.RoleId)' != "no") {
+                $("#roleId").val('@Html.Raw(Model.RoleId)');
             }
 
-            @*console.log(@Html.Raw(Json.Serialize(Model.UserAccessPageSPModels)));*@
+            @*console.log(@Html.Raw(Json.Serialize(Model.CompanyBasedUserAccessPageSPModels)));*@
 
 
         });

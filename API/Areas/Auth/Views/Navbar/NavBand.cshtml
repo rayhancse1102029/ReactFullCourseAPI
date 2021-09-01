@@ -1,204 +1,376 @@
 ﻿
+
 @using System.Web
 @model NavbarViewModel
 
 @{
     int sl = 1;
 }
-
+<br />
 <section>
-    <div class="">
-        <div class="card">
-            <div class="card-body">
-                <form id="myForm" data-parsley-validate="parsley">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="font-weight-bold">Create New Navbar Band</h5>
-                        </div>
-                        <div class="card-body">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-6" style="padding-right:5px !important">
+                    <div class="card custom_card_cls hover_pointer_cls tab_data_card_cls div_grow_cls" id="crdCurrent">
+                        <div class="card-body" onclick="moduleRouteFun()">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Module<span style="color:red">*</span></label>
-                                        <div class="col-md-8">
-                                            <select name="navModuleId" id="navModuleId" class="form-control" onchange="moduleChangeFun()">
-                                                <option value="0">select module</option>
-                                                @foreach (var item in Model.NavModules)
-                                                {
-                                                    <option value="@item.Id">@item.name</option>
-                                                }
-                                            </select>
-                                        </div>
+                                <div class="col-4 align_self_center_cls">
+                                    <div class="data_icon_cls">
+                                        <i class="far_cls fas fa-th-list  rounded_circle_cls bg_soft_warning_cls"></i>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Parent<span style="color:red">*</span></label>
-                                        <div class="col-md-8">
-                                            <select name="navParentId" id="navParentId" class="form-control">
-                                                <option value="0">select parent</option>
-                                                @foreach(var item in Model.NavParents)
-                                                {
-                                                    <option value="@item.Id">@item?.name</option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
+                                </div><!-- end col-->
+                                <div class="col-8">
+                                    <h3 id="CurrentEmployee"></h3>
+                                    <p class="text-muted font-14 mb-0">Module</p>
+                                </div><!-- end col-->
+                            </div><!-- end row-->
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div><!-- end col-->
+                <div class="col-md-6" style="padding-left:5px !important">
+                    <div class="card hover_pointer_cls custom_card_cls tab_data_card_cls div_grow_cls" id="crdTerminated">
+                        <div class="card-body" onclick="parentRouteFun()">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Name EN <span style="color:red">*</span></label>
-                                        <div class="col-md-8">
-                                            <input type="hidden" name="id" id="id" class="form-control" value="0" />
-                                            <input type="text" name="name" id="name" class="form-control" data-parsley-required="true" />
-                                        </div>
+                                <div class="col-4 align-self-center">
+                                    <div class="data_icon_cls">
+                                        <i class="far_cls fas fa-code-branch  rounded_circle_cls bg_soft_success_cls"></i>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Name BN</label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="nameBN" id="nameBN" class="form-control" />
-                                        </div>
-                                    </div>
-                                </div>                               
-                            </div>
+                                </div><!-- end col-->
+                                <div class="col-8">
+                                    <h3 id="TerminatedEmployee"></h3>
+                                    <p class="text-muted font-14 mb-0">Parent</p>
+                                </div><!-- end col-->
+                            </div><!-- end row-->
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div><!-- end col-->
+            </div><!--end row-->
+            <div class="margin_top_10px_cls"></div>
+            <div class="row">
+                <div class="col-md-6" style="padding-right:5px !important">
+                    <div class="card custom_card_cls hover_pointer_cls tab_data_card_cls div_grow_cls" id="crdSuspended">
+                        <div class="card-body" onclick="bandRouteFun()">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Short Order <span style="color:red">*</span></label>
-                                        <div class="col-md-8">
-                                            <input type="number" name="shortOrder" id="shortOrder" class="form-control" data-parsley-required="true" />
-                                        </div>
+                                <div class="col-4 align-self-center">
+                                    <div class="data_icon_cls">
+                                        <i class="far_cls fas fa-random rounded_circle_cls bg_soft_secondary_cls"></i>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Image Class</label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="imgClass" id="imgClass" class="form-control" />
-                                        </div>
+                                </div><!-- end col-->
+                                <div class="col-8">
+                                    <h3 id="SuspendedEmployee"></h3>
+                                    <p class="text-muted font-14 mb-0">Band</p>
+                                </div><!-- end col-->
+                            </div><!-- end row-->
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div><!-- end col-->
+                <div class="col-md-6" style="padding-left:5px !important">
+                    <div class="card custom_card_cls hover_pointer_cls tab_data_card_cls div_grow_cls" id="crdFormer">
+                        <div class="card-body" onclick="childRouteFun()">
+                            <div class="row">
+                                <div class="col-4 align-self-center">
+                                    <div class="data_icon_cls">
+                                        <i class="far_cls fas fa-location-arrow rounded_circle_cls bg_soft_pink_cls"></i>
+
                                     </div>
-                                </div>
-                            </div>
-                            <button type="button" onclick="submitFun()" class="btn btn-success float-right"><i class="fas fa-save"></i></button>
-                        </div>
-                    </div>
-                </form>
-                <br />
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="font-weight-bold">Navbar Band List</h5>
+                                </div><!-- end col-->
+                                <div class="col-8">
+                                    <h3 id="FormerEmployee"></h3>
+                                    <p class="text-muted font-14 mb-0">Child</p>
+                                </div><!-- end col-->
+                            </div><!-- end row-->
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div><!-- end col-->
+            </div><!--end row-->
+            <div class="margin_top_10px_cls"></div>
+            <form id="myForm" data-parsley-validate="parsley">
+                <div class="card custom_card_cls">
+                    <div class="card-header custom_card_header_cls">
+                        <h5 class="font-weight-bold">create nav band</h5>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped data_table_cls">
-                            <thead>
-                                <tr>
-                                    <th>#SL</th>
-                                    <th>Module</th>
-                                    <th>Parent</th>
-                                    <th>Name EN</th>
-                                    <th>Name BN</th>
-                                    <th>Short Order</th>
-                                    <th>Image Class</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.NavBands)
-                                {
-                                    <tr>
-                                        <td>@sl</td>
-                                        <td>@item?.navParent?.navModule?.name</td>
-                                        <td>@item?.navParent?.name</td>
-                                        <td>@item?.name</td>
-                                        <td>@item?.nameBN</td>
-                                        <td>@item?.shortOrder</td>
-                                        <td>@item?.imgClass</td>
-                                        <td>
-                                            <button type="button" class="btn btn-success btn-sm" onclick="editFun(@item?.Id, '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.name))', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.nameBN))', '@item?.shortOrder', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.imgClass))', '@item?.navParent?.navModuleId', '@item?.navParentId')"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteFun(@item?.Id)"><i class="fa fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                    sl++;
-                                }
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="NavModuleId" class="col-form-label">Module <span style="color:red">*</span></label>
+                                    <div>
+                                        <select asp-for="NavModuleId" onchange="moduleChangeFun()" class="form-control">
+                                            <option value="0">select module</option>
+                                            @foreach (var module in Model.NavModules)
+                                            {
+                                                <option value="@module.Id">@module.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="NavParentId" class="col-form-label">Parent <span style="color:red">*</span></label>
+                                    <div>
+                                        <select asp-for="NavParentId" class="form-control">
+                                            <option value="0">select parent</option>
+                                            @foreach (var parent in Model.NavParents)
+                                            {
+                                                <option value="@parent.Id">@parent.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="Name">Name<span style="color:red">*</span></label>
+                                    <div>
+                                        <input type="hidden" asp-for="Id" class="form-control" value="0" />
+                                        <input type="text" asp-for="Name" class="form-control" data-parsley-required="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="IsChild" class="col-form-label">IsChild <span style="color:red">*</span></label>
+                                    <div>
+                                        <select asp-for="IsChild" onchange="isChildFun()" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ImgClass" class="col-form-label">Image</label>
+                                    <div>
+                                        <input type="text" asp-for="ImgClass" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="ShortOrder">Short Order <span style="color:red">*</span></label>
+                                    <div>
+                                        <input type="number" asp-for="ShortOrder" class="form-control" data-parsley-required="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row child_row_cls">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Area" class="col-form-label">Area <span style="color:red">*</span></label>
+                                    <div>
+                                        <input type="text" asp-for="Area" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Controller" class="col-form-label">Controller <span style="color:red">*</span></label>
+                                    <div>
+                                        <input type="text" asp-for="Controller" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row child_row_cls">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Action" class="col-form-label">Action <span style="color:red">*</span></label>
+                                    <div>
+                                        <input type="text" asp-for="Action" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                               
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="submitFun()" class="btn btn-success float-right"><i class="fas fa-save"></i></button>
                     </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom_card_cls">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped data_table_cls">
+                        <thead>
+                            <tr>
+                                <th>Information</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.NavBands)
+                            {
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <span> Module: @item?.NavParent?.NavModule?.Name</span>   
+                                            <span> &nbsp; Parent: @item?.NavParent?.Name</span>
+                                            <br />
+                                            <span> Name: @item.Name</span>
+                                            <span>
+                                                &nbsp; IsChild:
+                                                @if (item.IsChild == true)
+                                                {
+                                                    <span>Yes</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>No</span>
+                                                }
+                                            </span>
+                                            <span> &nbsp; Order: @item.ShortOrder</span>
+                                            <br />
+                                            <span>Route: @item.Area/@item.Controller/@item.Action</span>
+                                            <br />
+                                            <span>Image: @item.ImgClass</span>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown d-inline-block float-right">
+                                            <a class="nav-link dropdown-toggle arrow_none_cls" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v font-20 text-muted"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right data_table_dropdown_menu_cls" aria-labelledby="dLabel4" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-123px, 35px, 0px);">
+                                                <button class="dropdown-item" onclick="editFun(@item?.Id,
+                                                    '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.Name))',
+                                                    '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.Area))',
+                                                    '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.Controller))',
+                                                    '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.Action))',
+                                                    '@item?.ShortOrder',
+                                                    '@item?.IsChild',
+                                                    '@Html.Raw(HttpUtility.JavaScriptStringEncode(item?.ImgClass))'
+                                                    '@item?.NavParent?.NavModuleId'
+                                                    '@item?.NavParentId' )">
+                                                    <i class="fa fa-edit" style="color:limegreen"></i> Edit
+                                                </button>
+                                                <button class="dropdown-item" onclick="deleteFun(@item?.Id)">
+                                                    <i class="fa fa-trash-alt" style="color:red"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                sl++;
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 
 @section Scripts{
 
     <script>
+
+        $(".child_row_cls").hide();
+        $('.data_table_cls').DataTable();
+
         $(document).ready(function () {
 
-            $('.data_table_cls').DataTable();
 
         });
+        function moduleRouteFun() {
+            window.location = "/Auth/Navbar";
+        }
+        function parentRouteFun() {
+            window.location = "/Auth/Navbar/NavParent";
+        }
+        function bandRouteFun() {
+            window.location = "/Auth/Navbar/NavBand";
+        }
+        function childRouteFun() {
+            window.location = "/Auth/Navbar/NavItem";
+        }
 
+        function isChildFun() {
+            var isChild = $("#IsChild option:selected").val();
+            if (isChild == 1) {
+                $(".child_row_cls").show();
+            } else {
+                $(".child_row_cls").hide();
+            }
+        }
+        function moduleChangeFun() {
+
+            var NavModuleId = $('#NavModuleId option:selected').val();
+            $("#NavParentId").empty();
+
+            if (NavModuleId > 0) {
+
+                $.ajax({
+                    url: "/api/NavbarAPI/GetAllNavParentByModuleIdAPI/" + NavModuleId,
+                    type: "get",
+                    success: function (res) {
+                        $("#NavParentId").append('<option value="0">select parent</option>');
+                        $.each(res, function (i, e) {
+                            $("#NavParentId").append('<option value="' + e.Id + '">' + e.Name + '</option>');
+                        })
+                    }
+                })
+            }
+
+        }
         function submitFun() {
 
-            var myData = $("#myForm").serialize();
+            var NavModuleId = $('#NavModuleId option:selected').val();
+            var NavParentId = $('#NavParentId option:selected').val();
+            var Name = $('#Name').val();
+            var ShortOrder = $('#ShortOrder').val();
 
-            var name = $('#name').val();
-            var nameBN = $('#nameBN').val();
-            var shortOrder = $('#shortOrder').val();
-            var imgClass = $('#imgClass').val();
-            var navModuleId = $('#navModuleId option:selected').val();
-            var navParentId = $('#navParentId option:selected').val();
-
-            if (navModuleId <= 0) {
+            if (NavModuleId <= 0) {
                 swal({
-                    title: 'Invalid Input', text: 'Please select module name !!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                    title: 'Invalid Input', text: 'Please select module!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
                 });
                 return false;
             }
-            else if (navParentId <= 0) {
+            else if (NavParentId <= 0) {
                 swal({
-                    title: 'Invalid Input', text: 'Please select parent name !!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                    title: 'Invalid Input', text: 'Please select parent!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
                 });
                 return false;
             }
-            else if (name == null || name == '') {
+            else if (Name == null || Name == '') {
                 swal({
-                    title: 'Invalid Input', text: 'Please enter band name!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                    title: 'Invalid Input', text: 'Please enter name!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
                 });
                 return false;
             }
-            else if (name.length > 150) {
+            else if (Name.length > 150) {
                 swal({
-                    title: 'Invalid Input', text: 'Band name length must be less or equals 150 char[English]!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
+                    title: 'Invalid Input', text: 'Name length must be less or equals 150 char[English]!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
                 });
                 return false;
             }
-            else if (nameBN.length > 150) {
-                swal({
-                    title: 'Invalid Input', text: 'Band name length must be less or equals 150 char[Bangla]!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
-                });
-                return false;
-            }
-            else if (imgClass.length > 150) {
-                swal({
-                    title: 'Invalid Input', text: 'image class name length must be less or equals 150 char!!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
-                });
-                return false;
-            }
-            else if (shortOrder <= 0) {
+            else if (ShortOrder <= 0) {
                 swal({
                     title: 'Invalid Input', text: 'Short Order must be Greater than Zero[0] !!!', type: 'warning', confirmButtonColor: '#3085d6', confirmButtonText: 'OK!'
                 });
                 return false;
-            }            
+            }
+            
 
             swal({
                 title: 'Are you sure?', text: 'Do you want save this record!', type: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Yes, Save it!'
             }).then(function () {
+
+                var myData = $("#myForm").serialize();
 
                 $.ajax({
                     url: "/Auth/Navbar/NavBand",
@@ -226,17 +398,27 @@
             });
         }
 
-        function editFun(id, name, nameBN, shortOrder, imgCls, navModuleId, navParentId) {
+        function editFun(Id, Name, Area, Controller, Action, shortOrder, IsChild, ImgClass, NavModuleId, NavParentId) {
 
             refresh();
 
-            $("#id").val(id);
-            $("#name").val(name);
-            $("#nameBN").val(nameBN);
+            $("#Id").val(Id);
+            $("#Name").val(Name);
+            $("#Area").val(Area);
+            $("#Controller").val(Controller);
+            $("#Action").val(Action);
             $("#shortOrder").val(shortOrder);
-            $("#imgClass").val(imgCls);
-            $("#navModuleId").val(navModuleId);
-            $("#navParentId").val(navParentId);
+            $("#ImgClass").val(ImgClass);
+            $("#NavModuleId").val(NavModuleId);
+            $("#NavParentId").val(NavParentId);
+
+            if (IsChild === true) {
+                $("#IsChild").val(1);
+                $(".child_row_cls").show();
+            } else {
+                $("#IsChild").val(0);
+                $(".child_row_cls").hide();
+            }
 
             window.location.href = "#myForm";
         }
@@ -248,7 +430,7 @@
             }).then(function () {
 
                 $.ajax({
-                    url: "/Auth/Navbar/DeleteNavBandById/" + id,
+                    url: "/Auth/Navbar/DeleteNavParentById/" + id,
                     type: "get",
                     success: function (res) {
 
@@ -272,37 +454,18 @@
             });
         }
 
-        function moduleChangeFun() {
-
-            var navModuleId = $('#navModuleId option:selected').val();
-            $("#navParentId").empty();
-
-            if (navModuleId > 0) {
-
-                $.ajax({
-                    url: "/api/NavbarAPI/GetAllNavParentByModuleIdAPI/" + navModuleId,
-                    type: "get",
-                    success: function (res) {
-                        $("#navParentId").append('<option value="0">select parent</option>');
-                        $.each(res, function (i, e) {
-                            $("#navParentId").append('<option value="' + e.Id + '">' + e.name + '</option>');
-                        })
-                    }
-                })
-            }           
-
-        }
-
         function refresh() {
 
-            $("#id").val(0);
-            $("#name").val('');
-            $("#nameBN").val('');
-            $("#shortOrder").val('');
-            $("#imgClass").val('');
-            $("#imgClass").val('');
-            $("#navModuleId").val(0);
-            $("#navParentId").val(0);
+            $("#Id").val(0);
+            $("#Name").val('');
+            $("#ShortOrder").val('');
+            $("#ImgClass").val('');
+            $("#Area").val('');
+            $("#Controller").val('');
+            $("#Action").val('');
+            $("#IsChild").val(0);
+            $("#NavModuleId").val(0);
+            $("#NavParentId").val(0);
         }
     </script>
 

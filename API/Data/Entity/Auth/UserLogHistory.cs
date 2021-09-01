@@ -6,20 +6,21 @@ using System.Text;
 
 namespace API.Data.Entity.Auth
 {
+    [Table("UserLogHistory", Schema = "Auth")]
     public class UserLogHistory:Base
     {
         [MaxLength(250)]
-        public string userId { get; set; }
+        public string UserId { get; set; }
         [MaxLength(250)]
-        public DateTime logTime { get; set; }
-        public int? status { get; set; }
+        public DateTime LogTime { get; set; }
+        public int? Status { get; set; }
         [MaxLength(250)]
-        public string ipAddress { get; set; }
+        public string IpAddress { get; set; }
         [MaxLength(250)]
-        public string browserName { get; set; }
+        public string BrowserName { get; set; }
         [MaxLength(250)]
-        public string pcName { get; set; }
+        public string PcName { get; set; }
         [NotMapped]
-        public string statusName { get; set; }
+        public string StatusName { get; set; }
     }
 }

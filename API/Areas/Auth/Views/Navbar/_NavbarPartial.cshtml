@@ -13,50 +13,44 @@
     }
 </script>
 
-@*<div id="menu">
 
-    </div>*@
-
-<ul class="navbar-nav sidebar sidebar-dark accordion" style="font-weight: bolder; background:#004577;" id="accordionSidebar">
-    <li class="nav-item">
-        <a class="nav-link" id="HomeIcon" href="/Home/Index">
-            <i class="fas fa-fw fa-home"></i>
-            <span style="color:white;" id="dashboard">Home</span>
-        </a>
-    </li>
-
-    @foreach (var module in Model.NavModules.OrderBy(x=>x.shortOrder))
+@foreach (var module in Model.NavModules.OrderBy(x => x.ShortOrder))
+{
+    if (module.IsChild)
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="@module?.Area" asp-controller="@module?.Controller" asp-action="@module?.Action">
+                <i class="fas fa-users-cog" style="color: whitesmoke"></i>
+                <span>@module?.Name</span>
+            </a>
+        </li>
+    }
+    else
     {
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_module_@module?.Id" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-users-cog" style="color: whitesmoke"></i>
-                <span>@module?.name</span>
+                <span>@module?.Name</span>
             </a>
             <div id="collapse_module_@module?.Id" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    @foreach (var parent in module.navParents.OrderBy(x=>x.shortOrder))
+                    @foreach (var parent in module.NavParents.OrderBy(x => x.ShortOrder))
                     {
-                        <a class="collapse-item" asp-area="Auth" asp-controller="Navbar" asp-action="NavbarBandWiseItemLoadByParentId" asp-route-parentId="@parent?.Id">@parent?.name</a>
+                        if (parent.IsChild)
+                        {
+                            <a class="collapse-item" asp-area="@parent?.Area" asp-controller="@parent?.Controller" asp-action="@parent?.Action">@parent?.Name</a>
+                        }
+                        else
+                        {
+                            <a class="collapse-item" asp-area="Auth" asp-controller="Navbar" asp-action="NavbarBandWiseItemLoadByParentId" asp-route-parentId="@parent?.Id">@parent?.Name</a>
+                        }
                     }
                 </div>
             </div>
         </li>
     }
+}
 
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-
-</ul>
-
-<script type="text/javascript">
-    
-    $(document).ready(function () {
-       
-        
-    });
-</script>
 
 
 

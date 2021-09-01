@@ -1,100 +1,110 @@
 ﻿
+@model LoginViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using API.Data.Entity
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     Layout = null;
 }
 
-<style>
-    #brand-icon-id i{
-        height: 200px;
-        width: 100px
-    }
-    /*background-color:#002739*/
-</style>
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <meta charset="utf-8" />
+    <title>Login-POS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="~/FontAwsome/css/all.min.css" rel="stylesheet" />
-    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico">
 
+    <!-- App css -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/metisMenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body >
-    <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-12 col-md-9" style="margin-top: -20px;">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            @*<div style="background-image:url(/images/Cover.jpg);background-repeat:no-repeat;background-size:contain;" class="col-lg-6 d-none d-lg-block text-center"></div>*@
-                            <div class="col-lg-12">
-                                <div class="p-5" style="padding-bottom: 0 !important">
-                                    <div class="text-center">
-                                        <h3 style="color: black; margin-top: 50px; margin-bottom: 5px; font-weight: bold">WELCOME ATM Website !!!</h3>
-                                        <br/>
-                                        @*<h5 style="color:black;margin-bottom: 12px; font-weight: 700;">Accounting</h5>*@
+<body class="account-body loginbg">
+
+    <!-- Log In page -->
+    <div class="row vh-100 ">
+        <div class="col-12 align-self-center">
+            <div class="auth-page">
+                <div class="card auth-card shadow-lg">
+                    <div class="card-body">
+                        <div class="px-3">
+                            <div class="auth-logo-box">
+                                <a asp-action="Index" asp-area="" asp-controller="home" class="logo logo-admin"><img src="~/assets/images/logo-sm.png" height="40" alt="logo" class="auth-logo"></a>
+                            </div><!--end auth-logo-box-->
+
+                            <div class="text-center auth-logo-text">
+                                <h4 class="mt-0 mb-3 mt-5">Let's Get Started To POS</h4>
+                                @*<p class="text-muted mb-0">SignInToContinue</p>*@
+                                <a asp-action="Register" class="font-13" style="color:dodgerblue;"><h5 class="font-weight-bold">Sign in to continue</h5></a>
+                            </div> <!--end auth-logo-text-->
+
+
+                            <form asp-area="Auth" asp-controller="Account" asp-action="Login" class="form-horizontal auth-form my-4" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <div class="input-group mb-3">
+                                        <span class="auth-form-icon">
+                                            <i class="dripicons-user"></i>
+                                        </span>
+                                        <input type="text" class="form-control" required asp-for="Phone" placeholder="Enter phone number">
                                     </div>
+                                </div><!--end form-group-->
 
-                                    <form class="user"  method="post">
-                                        <div asp-validation-summary="All" class="text-danger"></div>
-                                       
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="exampleInputEmail" name="userName" aria-describedby="emailHelp" placeholder="enter username">
+                                <div class="form-group">
+                                    <label for="userpassword">Password</label>
+                                    <div class="input-group mb-3">
+                                        <span class="auth-form-icon">
+                                            <i class="dripicons-lock"></i>
+                                        </span>
+                                        <input type="password" class="form-control" required asp-for="Password" placeholder="Enter password">
+                                    </div>
+                                </div><!--end form-group-->
+
+                                <div class="form-group row mt-4">
+                                    <div class="col-sm-6">
+                                        <div class="custom-control custom-switch switch-success">
+                                            <input type="checkbox" asp-for="RememberMe" class="custom-control-input" id="customSwitchSuccess">
+                                            <label class="custom-control-label text-muted" for="customSwitchSuccess">Remember Me</label>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="Password" id="exampleInputPassword" placeholder="password">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" name="RememberMe" onclick="handleClick(this)" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
-                                                <a class="collapse-item" asp-controller="Account" asp-action="Register">New User? Click here!</a>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-info btn-user btn-block">
-                                            Login
-                                        </button>
-                                        
-                                        <div style="text-align: center; margin-top: 15px;">
-                                            <a href="http://www.rayhan-bd.com/" target="_blank" style="font-weight: bold">Developed By @@Rayhan</a>
-                                            <br/>
-                                            <br/>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                                    </div><!--end col-->
+                                    <div class="col-sm-6 text-right">
+                                        <a asp-action="ForgotPassword" asp-controller="Auth" asp-area="" class="text-muted font-13"><i class="dripicons-lock"></i>Forgot Password?</a>
+                                    </div><!--end col-->
+                                </div><!--end form-group-->
+
+                                <div class="form-group mb-0 row">
+                                    <div class="col-12 mt-2">
+                                        <button class="btn btn-primary btn-round btn-block waves-effect waves-light" type="submit">Login<i class="fas fa-sign-in-alt ml-1"></i></button>
+                                    </div><!--end col-->
+                                </div> <!--end form-group-->
+                            </form><!--end form-->
+                        </div><!--end /div-->
+                        <div class="m-3 text-center text-muted">
+                            <p class="text-danger"> @ViewBag.LoginMessage</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end auth-page-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <!-- End Log In page -->
+    <!-- jQuery  -->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/metisMenu.min.js"></script>
+    <script src="~/assets/js/waves.min.js"></script>
+    <script src="~/assets/js/jquery.slimscroll.min.js"></script>
 
-    <script type="text/javascript">
-
-        function handleClick(cb) {
-            if (cb.checked == true) {
-                $('#customCheck').val(true);
-            } else {
-                $('#customCheck').val(false);
-            }
-        }
-
-
-    </script>
-
-
-    <script src="~/vendor/jquery/jquery.min.js"></script>
-    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/sb-admin-2.min.js"></script>
-
+    <!-- App js -->
+    <script src="~/assets/js/app.js"></script>
 </body>
 </html>
+

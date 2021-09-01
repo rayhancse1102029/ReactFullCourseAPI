@@ -8,15 +8,12 @@ namespace API.Areas.Auth.Models
 {
     public class LoginViewModel
     {
-  
-        [EmailAddress]
-        public string Email { get; set; }
+        [Required]
+        public string Phone { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        public string userName { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }

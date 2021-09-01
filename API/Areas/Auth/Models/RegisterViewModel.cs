@@ -6,33 +6,43 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using API.Data.Entity;
 using Microsoft.AspNetCore.Http;
+using API.Data.Entity;
+using API.Models.MasterData;
 
 namespace API.Areas.Auth.Models
 {
     public class RegisterViewModel
     {
 
-        [Required]
-        [StringLength(20, ErrorMessage = "maximum 20 char")]
+        [Required(ErrorMessage = "please enter your full name")]
+        [StringLength(12, MinimumLength = 3, ErrorMessage = "maximum 12 char and minimum 3 char")]
         [DisplayName("Full Name")]
-        public string fullName { get; set; }
+        public string FullName { get; set; }
 
-        [Required]
-        [StringLength(6, ErrorMessage = "maximum 4 char")]
-        [DisplayName("User Name")]
-        public string userName { get; set; }
 
-        public int? accountType { get; set; }
+        [Required(ErrorMessage = "please select your image")]
+        [DisplayName("Image")]
+        public IFormFile Img { get; set; }
 
-       
+        [Required(ErrorMessage = "please enter your phone number")]
+        [StringLength(20)]
+        public string Phone { get; set; }
+
+        //[Required(ErrorMessage = "please select your gender")]
+        //public int? genderId { get; set; }
+
+        //[Required(ErrorMessage = "please enter your email address")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        //[Required(ErrorMessage = "please enter your full Address")]
+        [StringLength(200)]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "please enter a password")]
+        [StringLength(18, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -42,15 +52,9 @@ namespace API.Areas.Auth.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public string userId { get; set; }
-        public decimal? amount { get; set; }
-        public string newPass { get; set; }
-        public IFormFile img { get; set; }
-        public string applicationUserId { get; set; }
-
-        public IEnumerable<ApplicationUser> allUsers { get; set; } 
-        public ApplicationUser user { get; set; } 
-
+        public string ApplicationUserId { get; set; }
+        public IEnumerable<ApplicationUser> AllUsers { get; set; } 
+        public IEnumerable<Gender> Genders { get; set; } 
 
     }
 }

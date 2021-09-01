@@ -1,0 +1,422 @@
+﻿
+@model IdentityRoleViewModel
+
+@{
+    ViewData["Title"] = "Role";
+}
+
+
+<br />
+<div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <div class="card custom_card_cls hover_pointer_cls bg-soft-info">
+            <div class="card-body" id="chartBody">
+                <h3 id="chartTitle" class="mt-0 header-title"></h3>
+                <div class="chartArea">
+                    <canvas id="rolesChart" height="200"></canvas>
+                </div>
+            </div><!--end card-body-->
+        </div>
+        <br/>
+        <div class="card custom_card_cls">
+            <div class="card-header custom_card_header_cls">
+                <button type="button" class="btn btn-danger btn-sm float-right" onclick="assignRoleFun()">Assign Role To User</button>
+                <h5 class="font-weight-bold">Create Role</h5>
+            </div>
+            <div class="card-body">
+                <form id="roleForm">
+                    <div class="form-group">
+                        <label class="col-form-label">Role Name <span style="color: red">*</span></label>
+                        <input type="text" id="roleName" class="form-control" placeholder=" enter role name here..."/>
+                    </div>
+                    <div style="text-align: right">
+                        <button type="button" onclick="saveRoleFun()" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <div class="row">
+            <div class="col-md-6" style="padding-right:5px !important">
+                <div class="card custom_card_cls hover_pointer_cls tab_data_card_cls div_grow_cls" id="crdCurrent">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 align_self_center_cls" >
+                                <div class="data_icon_cls">
+                                    <i class="far_cls fa-smile rounded_circle_cls bg_soft_warning_cls"></i>
+                                </div>
+                            </div><!-- end col-->
+                            <div class="col-8">
+                                <h3 id="CurrentEmployee"></h3>
+                                <p class="text-muted font-14 mb-0">CurrentEmployee</p>
+                            </div><!-- end col-->
+                        </div><!-- end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!-- end col-->
+            <div class="col-md-6"  style="padding-left:5px !important">
+                <div class="card hover_pointer_cls custom_card_cls tab_data_card_cls div_grow_cls" id="crdTerminated">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 align-self-center">
+                                <div class="data_icon_cls">
+                                    <i class="far_cls fa-user rounded_circle_cls bg_soft_success_cls"></i>
+                                </div>
+                            </div><!-- end col-->
+                            <div class="col-8">
+                                <h3 id="TerminatedEmployee"></h3>
+                                <p class="text-muted font-14 mb-0">Terminated</p>
+                            </div><!-- end col-->
+                        </div><!-- end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!-- end col-->
+        </div><!--end row-->
+        <div class="margin_top_10px_cls"></div>
+        <div class="row">
+            <div class="col-md-6"  style="padding-right:5px !important">
+                <div class="card custom_card_cls hover_pointer_cls tab_data_card_cls div_grow_cls" id="crdSuspended">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 align-self-center">
+                                <div class="data_icon_cls">
+                                    <i class="far_cls fa-handshake rounded_circle_cls bg_soft_secondary_cls"></i>
+                                </div>
+                            </div><!-- end col-->
+                            <div class="col-8">
+                                <h3 id="SuspendedEmployee"></h3>
+                                <p class="text-muted font-14 mb-0">Suspended</p>
+                            </div><!-- end col-->
+                        </div><!-- end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!-- end col-->
+            <div class="col-md-6"  style="padding-left:5px !important">
+                <div class="card custom_card_cls hover_pointer_cls tab_data_card_cls div_grow_cls" id="crdFormer">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 align-self-center">
+                                <div class="data_icon_cls">
+                                    <i class="far_cls fa-registered rounded_circle_cls bg_soft_pink_cls"></i>
+                                </div>
+                            </div><!-- end col-->
+                            <div class="col-8">
+                                <h3 id="FormerEmployee"></h3>
+                                <p class="text-muted font-14 mb-0">Former</p>
+                            </div><!-- end col-->
+                        </div><!-- end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!-- end col-->
+        </div><!--end row-->
+        <div class="margin_top_10px_cls"></div>
+        @if (User.IsInRole("Developer"))
+        {
+            <div class="card bg-white">
+                <div class="card-body">
+                    <table id="dev_roles_table_id" style="width: 100%; font-size: 90%;" class="table table-hover table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Information</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div><!--end card-body-->
+            </div>
+        }
+        else
+        {
+            <div class="card bg-white">
+                <div class="card-body">
+                    <table id="roles_table_id" style="width: 100%; font-size: 90%;" class="table table-hover table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>CreatedBy</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div><!--end card-body-->
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="roleAssignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header custom_card_header_cls">
+                <h5 class="modal-title" id="exampleModalLabel">Assign Role To User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form id="assignRoleForm">
+                        <div class="form-group row">
+                            <select id="roleNameSelect" class="form-control customSelect">
+                                <option value="0">select role</option>
+                                @foreach (var role in Model.ApplicationRoleList)
+                                {
+                                    var cname = role.Company != null ? role.Company.Name : "Dev";
+                                    <option value="@role.Name">@role.Name (@cname)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <select id="username" class="form-control customSelect">
+                                <option value="0">select user</option>
+                                @foreach (var user in Model.ApplicationUserList)
+                                {
+                                    <option value="@user.UserName">@user.FullName (@user.UserName) Email: @user.Email</option>
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            <button type="button" onclick="saveAssignRoleFun()" class="btn btn-success btn-sm float-right">Assign</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        //$(document).ready(function() {
+        //    //dataTable.fnFilter();
+        //});
+
+        var dataTable = $("#roles_table_id").dataTable();
+        var isDev = '@User.IsInRole("Developer")' == 'True' ? true : false;
+
+        function saveRoleFun() {
+            var name = $("#roleName").val();
+            if (name == null || name == "") {
+                toastr.error('Please enter name.', 'Error');
+                return false;
+            } else
+            {
+                $.ajax({
+                    url: "/Auth/Roles/CreateRole",
+                    type: "post",
+                    data: { name: name },
+                    success: function (res) {
+                        //console.log(res)
+                    if (res.res == 1) {
+                        toastr.success('Save Successfully.', 'Success');
+                        $("#roleName").val('');
+                        dataTable.fnFilter();
+                    } else {
+                        toastr.error(res.msg, 'Error');
+                    }
+                }
+            })
+            }
+        }
+        function assignRoleFun() {
+            $("#roleAssignModal").modal('show');
+        }
+        function saveAssignRoleFun() {
+            var roleName = $("#roleNameSelect option:selected").val();
+            var username = $("#username option:selected").val();
+
+            if (roleName == 0 || roleName == "" || roleName == null) {
+                toastr.error('Please select role.', 'Error');
+                return false;
+            }
+            else if (username == 0 || username == null || username == "") {
+                toastr.error('Please select user.', 'Error');
+                return false;
+            }
+            else
+            {
+                $.ajax({
+                    url: "/Auth/Roles/AssignRole",
+                    type: "post",
+                    data: { username: username, rname : roleName },
+                    success: function (res) {
+                        if (res.res == 1) {
+                            toastr.success('Save Successfully.', 'Success');
+                        } else {
+                            toastr.error(res.msg, 'Error');
+                        }
+                    }
+                })
+            }
+        }
+        // DataTable
+        if (isDev) {
+            dataTable = $("#dev_roles_table_id").dataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "pageLength": 10,
+                "autoWidth": false,
+                "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+                "order": [[1, "desc"]],
+                "ajax": {
+                    "url": "/Auth/Roles/LoadData",
+                    "type": "POST",
+                    "data": function(data) {
+
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "name",
+                        "name": "Name",
+                        "render": function (data, type, full, meta) {
+                            var company = full.Company != null ? full.Company.Name : "Dev";
+                            return '<p>Name : ' + full.Name + '<br>Company : ' + company + '<br>CreatedBy : ' + full.CreatedBy + '<br>Applying Complay : ' + full.CountCompany + '<br>Applying User : ' + full.CountUser +'</p>'
+                        }
+                    },
+                    {
+                        "data": "CreatedBy",
+                        "name": "CreatedBy",
+                        "render": function (data, type, full, meta)
+                        {
+                             return '<div class="dropdown d-inline-block float-right">' +
+                                         '<a class="nav-link dropdown-toggle arrow_none_cls"  data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"> ' +
+                                         '<i class="fas fa-ellipsis-v font-20 text-muted" ></i ></a> ' +
+                                         '<div class="dropdown-menu dropdown-menu-right data_table_dropdown_menu_cls" aria-labelledby="dLabel4" x-placement="bottom-end" style = "position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-123px, 35px, 0px);" >' +
+                                         '<button class="dropdown-item" onClick="Details(' + full.Id + ')"><i class="far fa-check-square text-success">' +
+                                         '</i>Details</button>' +
+                                         '</div>'+
+                                      '</div>';
+                        }
+                    }
+                ]
+
+            });
+        } else {
+            dataTable = $("#roles_table_id").dataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "pageLength": 10,
+                "autoWidth": false,
+                "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+                "order": [[1, "desc"]],
+                "ajax": {
+                    "url": "/Auth/Roles/LoadData",
+                    "type": "POST",
+                    "data": function (data) {
+
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "name", "name": "name",
+                        "render": function (data, type, full, meta) { return '<p>' + full.Name + '</p>' }
+                    },
+                    {
+                        "data": "CreatedBy", "name": "Users",
+                        "render": function (data, type, full, meta) { return '<p>' + full.CountUser + '</p>' }
+                    }
+                ]
+
+            });
+        }
+
+        $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
+            console.log(message);
+        };
+        // End DataTable
+
+        // Chart
+        const chartHeight = 300;
+        var chartH = 350;
+        let titleText = "Identity Role Based Users Graph";
+
+        if ($('#chartTitle').length > 0) {
+            $.ajax({
+                type: "GET",
+                url: "/Auth/Roles/GetRolesChartData",
+                datatype: "json",
+                traditional: true,
+                success: function (response) {
+                    let data = {
+                        labels: response.labels,
+                        datasets: [
+                            {
+                                backgroundColor: getRandomBackground(response.labels),
+                                borderColor: "#fff",
+                                data: response.datas
+                            }
+                        ],
+                        id: response.ids
+                    };
+                    const canvas = document.getElementById("rolesChart");
+                    const crt = canvas.getContext('2d');
+
+                    let hBar = new Chart(crt, {
+                        type: "doughnut",
+                        data: data,
+                        options: {
+                            tooltips: {
+                                enabled: true
+                            },
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: titleText,
+                                fontSize: 15,
+                                fontStyle: 'bold',
+                                fontColor: '#000'
+                            }
+                        }
+                    });
+
+                    canvas.onclick = function (evt) {
+                        var activePoints = hBar.getElementsAtEvent(evt);
+                        if (activePoints[0]) {
+                            var chartData = activePoints[0]['_chart'].config.data;
+                            var idx = activePoints[0]['_index'];
+
+                            var label = chartData.labels[idx];
+                            var id = chartData.id[idx];
+                            var value = chartData.datasets[0].data[idx];
+
+                            //$("#departmentIdFromChart").val(id);
+
+                            dataTable.fnFilter();
+                        }
+                    };
+                },
+                error: function () { }
+            });
+        }
+
+        function getRandomBackground(array) {
+            let backgrounds = [];
+            for (let i = 0; i < array.length; i++) {
+                backgrounds.push(getRandomColor());
+            }
+            return backgrounds;
+        }
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        // End Chart
+    </script>
+}
+

@@ -1,43 +1,33 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using API.Data.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Data.Entity.Auth
 {
+    [Table("NavItem", Schema = "Auth")]
     public class NavItem:Base
     {
-        public int? navBandId { get; set; }
-        public NavBand navBand { get; set; }
+        public int? NavBandId { get; set; }
+        public NavBand NavBand { get; set; }
 
-        [Column(TypeName = "nvarchar(250)")]
-        public string name { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string nameBN { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string area { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string controller { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string action { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string imgClass { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string activeLi { get; set; }
-
-        public int? status { get; set; }
-
-        public int? displayOrder { get; set; }       
+        [StringLength(150)]
+        public string Name { get; set; }
+        public string Area { get; set; }
+        public string Controller { get; set; }
+        public string Action { get; set; }
+        [StringLength(150)]
+        public string ImgClass { get; set; }
+        public int? ShortOrder { get; set; }
+        public Status Status { get; set; }
 
         [NotMapped]
-        public string moduleName { get; set; }
+        public int? Group { get; set; }
         [NotMapped]
-        public string parentName { get; set; }
+        public string ModuleName { get; set; }
         [NotMapped]
-        public string bandName { get; set; }
+        public string ParentName { get; set; }
+        [NotMapped]
+        public string BandName { get; set; }
     }
 }

@@ -1,0 +1,303 @@
+﻿@using System.Web
+@model BrandViewModel
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+
+
+
+<style>
+    table thead tr th {
+        text-align: center;
+    }
+
+    table tbody tr td {
+        text-align: center;
+    }
+</style>
+
+<br />
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <h5 class="card-title" style="color: black; font-weight:bold">Create New Brand</h5>
+            </div>
+        </div>
+        <div class="container">
+            <div class="card-body">
+                <form id="myForm" asp-area="MasterData" asp-controller="MasterData" asp-action="Brand" method="post" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 col-form-label">Brand Name  </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="name" name="name">
+                            <input type="hidden" class="form-control" id="Id" name="Id" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="img" class="col-md-4 col-sm-3 col-form-label">Brand Image </label>
+                        <div class="col-md-8 col-sm-9">
+                            <input type="file" class="form-control" name="img" id="img_8" />
+                            <label>Required Size (180 X 180) PX</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="img_banner" class="col-md-4 col-sm-3 col-form-label">Banner @*<span style="color:red">*</span>*@</label>
+                        <div class="col-md-8 col-sm-9">
+                            <input type="file" class="form-control" name="banner" id="img_banner" />
+                            <label>Required Size (200 X 1120) PX (Banner)</label>
+                        </div>
+                    </div>
+                    <div id="preview_img_div" style="text-align: center">
+                        <div class="custom-control-inline">
+                            <div style="width: 220px;" id="img_div_8">
+                                <img id="img_preview_tag_id_8" style="height:200px; width: 200px;border: 2px solid lightgray; margin-left: 2px; margin-right: 2px;" />
+                                <br /><label>(200 X 200) PX</label>
+                            </div>
+                            <div style="width: 800px" id="img_div_banner">
+                                <img id="img_preview_tag_id_banner" style="height:200px; width: 750px;border: 2px solid lightgray; margin-left: 2px; margin-right: 2px;" />
+                                <br /><label>(200 X 1120) PX</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="float:right; margin-top:5px;"><i class="fas fa-save"></i></button>
+                    <br /><br />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row clearfix">
+        <div class="col-12">
+            <div class="card mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="font-weight-bold" style="color:black">Brand List</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <table class="table table-striped table-bordered" id="sliderTable">
+                        <thead>
+                            <tr>
+                                <th>Brand Name</th>
+                                <th>Brand img</th>
+                                <th>Banner img</th>
+                                <th>Action</th>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var data in Model.brands)
+                            {
+                                <tr>
+                                    <td>@data.name</td>
+                                    <td>
+                                        <img src="~/@data.url" height="50" width="150" />
+                                    </td>
+                                    <td>
+                                        <img src="~/@data.banner_url" height="50" width="300" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" onclick="Edit(@data.Id, '@data.name', '@Html.Raw(HttpUtility.JavaScriptStringEncode(@data.url))','@Html.Raw(HttpUtility.JavaScriptStringEncode(@data.banner_url))')" href="#"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-danger btn-sm" onclick="Remove(@data.Id)" href="#"><i class="fa fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @*<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>*@
+    <script>
+
+        $(document).ready(function () {
+
+            var _URL_08 = window.URL || window.webkitURL;
+            var _URL_09 = window.URL || window.webkitURL;
+
+            $("#img_8").change(function () {
+
+                var file, img;
+
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        //alert(this.width + " " + this.height);
+                        if (this.height == 180 && this.width == 180) {
+                            imgPreview_8(file);
+
+                        } else {
+
+                            alert("height must be 180px and width must be 180px");
+                            $("#img_8").val(null);
+                            $('#img_preview_tag_id_8').attr('src', '');
+
+                        }
+
+                    };
+                    img.onerror = function () {
+                        alert("not a valid file: " + file.type);
+                    };
+
+                    img.src = _URL_08.createObjectURL(file);
+
+                }
+
+            });
+            $("#img_banner").change(function () {
+
+                var file, img;
+
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        //alert(this.width + " " + this.height);
+                        if (this.height == 200 && this.width == 1120) {
+                            imgPreview_banner(file);
+
+                        } else {
+
+                            alert("must be height : 200px and width : 1120px");
+                            $("#img_banner").val(null);
+                            $('#img_preview_tag_id_banner').attr('src', '');
+
+                        }
+
+                    };
+                    img.onerror = function () {
+                        alert("not a valid file: " + file.type);
+                    };
+
+                    img.src = _URL_09.createObjectURL(file);
+
+                }
+
+            });
+
+            $('#sliderTable').DataTable();
+
+        });
+
+        function imgPreview_8(e) {
+
+            var fileSize = (e.size);
+            var file = e;
+            var fileType = file["type"];
+            var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+            if ($.inArray(fileType, validImageTypes) < 0) {
+                swal('Attention!', 'Uploaded photo must be a image type!', 'warning');
+                return false;
+            } else if (fileSize > 300000) {
+                swal('Attention!', 'Photo size must be less then or equal 20kb.', 'warning');
+                return false;
+            }
+
+            readPictureURL_8(e);
+        }
+        function imgPreview_banner(e) {
+
+            var fileSize = (e.size);
+            var file = e;
+            var fileType = file["type"];
+            var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+            if ($.inArray(fileType, validImageTypes) < 0) {
+                swal('Attention!', 'Uploaded photo must be a image type!', 'warning');
+                return false;
+            } else if (fileSize > 3000000) {
+                swal('Attention!', 'Photo size must be less then or equal 20kb.', 'warning');
+                return false;
+            }
+
+            readPictureURL_banner(e);
+        }
+
+
+        function readPictureURL_8(input) {
+
+            if (input != null) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+
+                    $('#img_preview_tag_id_8').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input);
+            }
+
+        }
+        function readPictureURL_banner(input) {
+
+            if (input != null) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#img_preview_tag_id_banner').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input);
+            }
+
+        }
+
+        function Edit(id, name, url, banner) {
+
+            $("#Id").val(id);
+            $("#name").val(name);
+
+            $("#img_div_8").empty();
+            $("#img_div_banner").empty();
+
+            $("#img_div_8").append('<img src="/' + url + '" id="img_preview_tag_id_8" style="height:200px; width: 200px;border: 2px solid lightgray; margin-left: 2px; margin-right: 2px;" /><br/><label>(200 X 200) PX</label>');
+            $("#img_div_banner").append('<img src="/' + banner + '" id="img_preview_tag_id_banner"  style="height:200px; width: 750px;border: 2px solid lightgray; margin-left: 2px; margin-right: 2px;" /><br /><label>(220 X 1120) PX</label>');
+
+        }
+
+
+        function Remove(Id) {
+
+            swal({
+                title: 'Are you sure?', text: 'Do you want Delete this record!', type: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Yes, Delete it!'
+            }).then(function () {
+
+                $.ajax({
+                    url: "/MasterData/Brand/DeleteBrand/" + Id,
+                    type: "post",
+                    success: function (response) {
+
+                        if (response == "success") {
+                            swal({
+                                title: 'Success!', text: 'Delete Successfully!', type: 'success', showCancelButton: false, confirmButtonColor: '#3085d6', confirmButtonText: 'Ok!',
+                            }).then(function () {
+                                window.location.href = "/MasterData/MasterData/Brand";
+                            });
+
+                        }
+                        else {
+                            swal('Warning!', 'Unable to Delete!', 'warning');
+                        }
+                    }
+
+                });
+            });
+        }
+
+    </script>
+}
+
+
+
+
+
+
+
+

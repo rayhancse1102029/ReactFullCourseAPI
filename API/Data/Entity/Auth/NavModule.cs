@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Data.Enum;
 
 namespace API.Data.Entity.Auth
 {
+    [Table("NavModule", Schema = "Auth")]
     public class NavModule:Base
     {
-
         [StringLength(150)]
-        public string name { get; set; }
+        public string Name { get; set; }
+        public string Area { get; set; }
+        public string Controller { get; set; }
+        public string Action { get; set; }
         [StringLength(150)]
-        public string nameBN { get; set; }
-        public int? shortOrder { get; set; }
-        //[StringLength(150)]
-        //public string isTeam { get; set; }
-        [StringLength(150)]
-        public string imgClass { get; set; }
+        public string ImgClass { get; set; }
+        public int? ShortOrder { get; set; }
+        public bool IsChild { get; set; }
+        public Status Status { get; set; }
 
         [NotMapped]
-        public IEnumerable<NavParent> navParents { get; set; }
+        public int? Group { get; set; }
+        [NotMapped]
+        public IEnumerable<NavParent> NavParents { get; set; }
     }
 }

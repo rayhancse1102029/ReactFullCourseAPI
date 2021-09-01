@@ -1,5 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using API.Data.Entity
+@using API.Services.Auth.Interfaces
+@inject IUserService _userService;
 
+@{
+    var user = new ApplicationUser();
+}
 
 <!DOCTYPE html>
 <html>
@@ -11,39 +17,34 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@ViewData["Title"] - Dashboard Mastering</title>
+    <title>@ViewData["Title"] - Dashboard </title>
 
-
-    @*dropdown with search*@
-    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />*@
-
-    <link href="~/CustomSelectOption/select2.min.css" rel="stylesheet" />
 
     <link href="~/SweetAlert/sweetalert2.css" rel="stylesheet" />
     <!-- Custom fonts for this template-->
-    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/FontAwsome/css/all.css" rel="stylesheet" />
+    @*<link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">*@
     @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
-
-    <!-- Custom Date Picker-->
-    @*<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />*@
-    
-    <!-- Custom styles for this page -->
-   
-    <link href="~/data_table_offline_script/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
 
-    @*loading bar*@
-    <link href="~/loading-bar/dist/loading-bar.css" rel="stylesheet" />
-    
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="~/CustomSelectOption/select2.min.css" rel="stylesheet" />
+
+    <link href="~/css/common_custom.css" rel="stylesheet" />
+
+    <link href="~/css/Chart.css" rel="stylesheet" />
+    <link href="~/lib/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
     <!-- Custom styles for this page -->
     <link href="~/css/jqueryui.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">*@
 
-    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet" />*@
-    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">*@
+    <link href="~/assets/plugins/dropify/css/dropify.min.css" rel="stylesheet">
+
+    <link href="~/data_table_offline_script/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrapmin.css" rel="stylesheet" />
 
 
     <style>
@@ -208,6 +209,8 @@
             border-radius: 5px;
         }
 
+        /*custom*/
+
         #content .navbar img {
             margin-left: 20px;
         }
@@ -225,20 +228,24 @@
         #accordionSidebar {
             background: #19244D;
         }
-
-        #developer_info_id a:hover {
-            color: red;
-        }
-
-        #developer_info_id a {
-            color: #1e90ff;
-        }
     </style>
 
 
     <environment include="Development">
 
         @*Custom*@
+
+
+        @*<link href="~/Dashboard/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">*@
+        @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
+
+        <!-- Custom styles for this template-->
+        @*<link href="~/Dashboard/css/sb-admin-2.min.css" rel="stylesheet">
+            <link href="~/Dashboard/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+            <link href="~/SweetAlert/sweetalert2.min.css" rel="stylesheet" />*@
+
+
+
 
     </environment>
     <environment exclude="Development">
@@ -254,35 +261,153 @@
     <!-- Topbar -->
     <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
-        <a style="text-decoration: none; width: 250px;" asp-controller="Home" asp-action="Index" >
+        <a asp-area="Ecommerce" asp-controller="EcommerceWebsite" asp-action="HybridIndex">
+            <img src="~/images/logo/t_classy.png" height="70" width="150" />
         </a>
-
         <!-- Sidebar Toggle (Topbar) -->
         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
         </button>
 
-      
-
         <ul class="navbar-nav ml-auto">
-            
+
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw"></i>
+                    <!-- Counter - Alerts -->
+                    <span class="badge badge-danger badge-counter">3+</span>
+                </a>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                    <h6 class="dropdown-header">
+                        Alerts Center
+                    </h6>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-primary">
+                                <i class="fas fa-file-alt text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">December 12, 2019</div>
+                            <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-success">
+                                <i class="fas fa-donate text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">December 7, 2019</div>
+                            $290.29 has been deposited into your account!
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-warning">
+                                <i class="fas fa-exclamation-triangle text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">December 2, 2019</div>
+                            Spending Alert: We've noticed unusually high spending for your account.
+                        </div>
+                    </a>
+                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                </div>
+            </li>
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-envelope fa-fw"></i>
+                    <!-- Counter - Messages -->
+                    <span class="badge badge-danger badge-counter">7</span>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                    <h6 class="dropdown-header">
+                        Message Center
+                    </h6>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold">
+                            <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+                            <div class="small text-gray-500">Emily Fowler · 58m</div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                            <div class="status-indicator"></div>
+                        </div>
+                        <div>
+                            <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+                            <div class="small text-gray-500">Jae Chun · 1d</div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                            <div class="status-indicator bg-warning"></div>
+                        </div>
+                        <div>
+                            <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                            <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div>
+                            <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                            <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                </div>
+            </li>
+
+            <!-- Nav Item - Messages -->
+            <div class="topbar-divider d-none d-sm-block"></div>
+
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
-                    <img class="img-profile rounded-circle" src="~/images/user.png">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        user = await _userService.GetUserInfo(User.Identity.Name);
+                        if (user != null)
+                        {
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">@user?.FullName</span>
+                            <img class="img-profile rounded-circle" src="~/@user?.ImgUrl">
+                        }
+                        else
+                        {
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hello! User</span>
+                            <img class="img-profile rounded-circle" src="~/images/user.png">
+                        }
+                    }
+
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" asp-area="User" asp-controller="User" asp-action="UserProfileUpdate">
+                    <a class="dropdown-item" asp-area="Ecommerce" asp-controller="EcommerceWebsite" asp-action="MyProfile">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
                     </a>
-                    <a class="dropdown-item" asp-area="User" asp-controller="User" asp-action="UserProfileUpdate">
+                    <a class="dropdown-item" asp-area="Profile" asp-controller="Profile" asp-action="Index">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                         Settings
                     </a>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" asp-area="Profile" asp-controller="Profile" asp-action="Index">
                         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                         Activity Log
                     </a>
@@ -304,8 +429,187 @@
         <div id="wrapper">
             <!-- Sidebar -->
             <div id="menu">
+                <ul class="navbar-nav sidebar sidebar-dark accordion" style="font-weight: bolder; background:#004577;" id="accordionSidebar">
+                    <li class="nav-item">
+                        <a class="nav-link" id="HomeIcon" href="/Home/Index">
+                            <i class="fas fa-fw fa-home"></i>
+                            <span style="color:white;" id="dashboard">Home</span>
+                        </a>
+                    </li>
+
+                    <span id="load_menus"></span>
+
+                    <!-- Sidebar Toggler (Sidebar) -->
+                    <div class="text-center d-none d-md-inline">
+                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                    </div>
+                </ul>
 
             </div>
+            @*<div id="menu">
+                    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #004577">
+
+                        <!-- Nav Item - Dashboard -->
+                        <li class="nav-item active">
+                            <a asp-controller="Home" asp-action="Index" class="nav-link">
+                                <i class="fas fa-fw fa-tachometer-alt" style="font-size: 25px"></i>
+                                <span style="font-weight: bold; font-size: 25px">Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- Divider -->
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrder" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Order</span>
+                            </a>
+                            <div id="collapseOrder" class="collapse" aria-labelledby="collapseOrder" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcommerceItem" asp-action="Delivery">Delivery</a>
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcommerceReport" asp-action="Index">Report</a>
+
+                                </div>
+                            </div>
+
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item -Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEcommerce" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Ecommerce</span>
+                            </a>
+                            <div id="collapseEcommerce" class="collapse" aria-labelledby="collapseEcommerce" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcommerceItem" asp-action="Category">Item Category</a>
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcomItemEntry" asp-action="Index">Ecom Item</a>
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="VendorCourier" asp-action="Index">Vendor</a>
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="" asp-action="">Report</a>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item -Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlock" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Block</span>
+                            </a>
+                            <div id="collapseBlock" class="collapse" aria-labelledby="collapseBlock" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="ItemShowBlock" asp-action="Index">Block Category</a>
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="ItemShowBlock" asp-action="SaveItemShowBlock">Block Item</a>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTemplate" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Template</span>
+                            </a>
+                            <div id="collapseTemplate" class="collapse" aria-labelledby="collapseTemplate" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcomTemplate" asp-action="Index">Template Master</a>
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcomTemplate" asp-action="TemplateDetails">Template Details</a>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item -Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMasterData" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Master Data</span>
+                            </a>
+                            <div id="collapseMasterData" class="collapse" aria-labelledby="collapseMasterData" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" asp-area="MasterData" asp-controller="Gender" asp-action="Index">Gender</a>
+                                    <a class="collapse-item" asp-area="MasterData" asp-controller="Slider" asp-action="Index">Slider</a>
+                                    <a class="collapse-item" asp-area="MasterData" asp-controller="Brand" asp-action="Index">Brand</a>
+                                    <a class="collapse-item" asp-area="MasterData" asp-controller="MasterData" asp-action="Index">Color</a>
+                                    <a class="collapse-item" asp-area="MasterData" asp-controller="MasterData" asp-action="SizeIndex">Size</a>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item -Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSecurity" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Security</span>
+                            </a>
+                            <div id="collapseSecurity" class="collapse" aria-labelledby="collapseSecurity" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+
+                                    <a class="collapse-item" asp-area="Auth" asp-controller="Roles" asp-action="CreateRole">Create Role</a>
+                                    <a class="collapse-item" asp-area="Auth" asp-controller="Roles" asp-action="AssignRole">Assign Role</a>
+                                    <a class="collapse-item" asp-area="Auth" asp-controller="Roles" asp-action="Index">All Role</a>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item -Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>User</span>
+                            </a>
+                            <div id="collapseUser" class="collapse" aria-labelledby="collapseUser" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" asp-controller="Account" asp-action="Register">Create User</a>
+                                    <a class="collapse-item" asp-area="Auth" asp-controller="User" asp-action="Index">All User</a>
+                                    <a class="collapse-item" asp-area="Auth" asp-controller="User" asp-action="Index">Lock User</a>
+                                    <a class="collapse-item" asp-area="Auth" asp-controller="User" asp-action="Index">Forgot Password</a>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr class="sidebar-divider">
+
+                        <!-- Nav Item -Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Report</span>
+                            </a>
+                            <div id="collapseReport" class="collapse" aria-labelledby="collapseUser" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" asp-area="Ecommerce" asp-controller="EcommerceReport" asp-action="Index">Report</a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Divider -->
+                        <hr class="sidebar-divider d-none d-md-block">
+                        <!-- Sidebar Toggler (Sidebar) -->
+                        <div class="text-center d-none d-md-inline">
+                            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                        </div>
+                    </ul>
+                </div>*@
 
             <!-- End of Sidebar -->
             <!-- Content Wrapper -->
@@ -316,7 +620,7 @@
                     <div class="container-fluid" style="padding: 0 8px;">
                         @RenderBody()
                     </div>
-                    <!--container-fluid -->
+                    <!-- /.container-fluid -->
                 </div>
                 <!-- End of Main Content -->
                 <!-- Footer -->
@@ -327,12 +631,10 @@
 
         </div>
         <!-- End of Page Wrapper -->
-        <footer class="sticky-footer bg-white" style="margin-top: 100px;">
+        <footer class="sticky-footer" style="background: #C5D6E9;">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <h6 class="font-weight-bold" id="developer_info_id">
-                        <a href="http://www.rayhan-bd.com/" target="_blank"  style="text-decoration: none;">Developed By @@Rayhan </a>&copy; 2021
-                    </h6>
+                    <span><a href="https://www.ARSoft.com/" target="_blank" style="text-decoration:none;"> 2020-Developed By @@Rayhan </a>&copy; @DateTime.Now.Year</span>
                 </div>
             </div>
         </footer>
@@ -355,7 +657,7 @@
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <form asp- method="post" asp-area="Auth" asp-controller="Account" asp-action="Logout" id="logoutForm" class="navbar-right">
+                    <form asp-area="Auth" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                         <button type="submit" onclick="ClearLocalStorage()" class="btn btn-success">Logout</button>
                     </form>
@@ -406,12 +708,35 @@
             </div>
         </div>
     </div>
-    
+
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+
+
+    @*dropdown with search*@
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>*@
+    <script src="~/CustomSelectOption/select2.min.js"></script>
+    <script src="~/FontAwsome/js/all.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js"></script>
+
+    <!-- Custom scripts for all autocomplete-->
+    <script src="~/js/jquery.autocomplete.js" type="text/javascript"></script>
+
+    @*<script src="~/SweetAlert/sweetalert2.common.js"></script>*@
+    <script src="~/SweetAlert/sweetalert2.js"></script>
+
+    <script src="~/js/Chart.js"></script>
+    <!--DataTable Js -->
+    <script src="~/lib/DataTables/datatables.min.js"></script>
+
+    <!-- toaster notification script -->
+    <script src="~/lib/toastr/toastr.min.js"></script>
     <!-- Page level plugins -->
 
     <script src="~/data_table_offline_script/jquery.dataTables.min.js"></script>
@@ -422,45 +747,11 @@
     <script src="~/data_table_offline_script/vfs_fonts.js"></script>
     <script src="~/data_table_offline_script/buttons.html5.min.js"></script>
     <script src="~/data_table_offline_script/buttons.print.min.js"></script>
+    <script src="~/assets/plugins/dropify/js/dropify.min.js"></script>
 
-
-    @*dropdown with search*@
-
-    <script src="~/CustomSelectOption/select2.min.js"></script>
-    
-    <!-- Custom scripts for all autocomplete-->
-    <script src="~/js/jquery.autocomplete.js" type="text/javascript"></script>
-
-@*loading bar*@
-    <script src="~/loading-bar/dist/loading-bar.js"></script>
-
-    <!-- Custom Date Picker-->
-    @*<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>*@
-
-    <!-- Core plugin JavaScript-->
-    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="~/js/sb-admin-2.min.js"></script>
-
-    <!-- parsly Validation -->
-    <script src="~/js/parsly.js"></script>
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>*@
-    
-    @*<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>*@
-
-    <script src="~/SweetAlert/sweetalert2.common.js"></script>
-    <script src="~/SweetAlert/sweetalert2.js"></script>
-    <script src="~/js/jquery.autocomplete.js" type="text/javascript"></script>
-
-    <script type="text/javascript" src="~/js/canvas/jquery.canvasjs.min.js"></script>
-
-    <!-- Comon Ajax Lib -->
-    <script type="text/javascript" src="~/js/common.js"></script>
-    <script type="text/javascript" src="~/js/jquery.number.js"></script>
-    <script type="text/javascript" src="~/js/jquery.number.min.js"></script>
-
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/ObjectifyForm.js"></script>
     <script src="~/js/lay/poppermin.js"></script>
     <script src="~/js/lay/jquery-migrate-300min.js"></script>
     <script src="~/js/lay/bootstrapmin.js"></script>
@@ -469,26 +760,22 @@
 
     <script type="text/javascript">
 
-    $('#menu').load('@Url.Action("NavbarLoad", "Navbar", new { area="Auth"})');
+        $('#load_menus').load('@Url.Action("NavbarLoad", "Navbar", new { area="Auth"})');
 
-    $(document).ready(function() {
+        $(document).ready(function () {
 
-        $('.customSelect').select2();
+            $('.customSelect').select2();
 
-        $(".select2").css("width", "100%");
-        $(".select2-selection--single").css("height", "33px");
-        $(".select2-selection--single").css("border", "1px solid #d1d3e2");
-        $(".select2-selection__rendered").css("line-height", "32px");
+            $(".select2").css("width", "100%");
+            $(".select2-selection--single").css("height", "33px");
+            $(".select2-selection--single").css("border", "1px solid #d1d3e2");
+            $(".select2-selection__rendered").css("line-height", "32px");
 
-    });
+        });
 
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
+    </script>
 
-    </script>    
-
-@RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>

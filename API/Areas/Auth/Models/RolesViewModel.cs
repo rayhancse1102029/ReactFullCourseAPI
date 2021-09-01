@@ -9,8 +9,8 @@ namespace API.Areas.Auth.Models
     public class RolesViewModel
     {
         public int Id { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public IEnumerable<IdentityRole> identityRoles { get; set; }
+        public IEnumerable<IdentityRole> IdentityRoles { get; set; }
     }
 }
