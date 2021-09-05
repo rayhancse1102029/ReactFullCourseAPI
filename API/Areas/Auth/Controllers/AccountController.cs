@@ -90,6 +90,7 @@ namespace API.Areas.Auth.Controllers
                     string fileName;
                     string empFileName = String.Empty;
                     string message = _fileSave.SaveUserImage(out fileName, model.Img);
+                    var baseUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + "/";
 
                     if (message == "success")
                     {
@@ -103,7 +104,7 @@ namespace API.Areas.Auth.Controllers
                             PhoneNumber = model.Phone,
                             EmployeeCode = await _userService.GenerateEmployeeCode(),
                             //genderId = model.genderId,
-                            ImgUrl = empFileName,
+                            ImgUrl = baseUrl + "/" + empFileName,
                             //Address = model.address,
                             IsVerified = false,
                             IsDeleted = false,
