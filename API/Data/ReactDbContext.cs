@@ -63,7 +63,7 @@ namespace API.Data
 
         #endregion
 
-
+        public DbSet<TestEntity> TestEntities { get; set; }
 
         #region Settings Configs
         public override int SaveChanges()

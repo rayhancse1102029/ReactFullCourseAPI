@@ -293,6 +293,24 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TestEntities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDelete = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestEntities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Company",
                 schema: "MasterData",
                 columns: table => new
@@ -1363,6 +1381,9 @@ namespace API.Migrations
             migrationBuilder.DropTable(
                 name: "Slider",
                 schema: "MasterData");
+
+            migrationBuilder.DropTable(
+                name: "TestEntities");
 
             migrationBuilder.DropTable(
                 name: "AddressCategory",

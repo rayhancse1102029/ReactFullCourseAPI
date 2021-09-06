@@ -7,6 +7,15 @@
       "sslPort": 44344
     }
   },
+  "dependencies": {
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "2.2.0-preview2-final",
+      "type": "build"
+    }
+  },
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": "2.2.0-preview2-final"
+  },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {

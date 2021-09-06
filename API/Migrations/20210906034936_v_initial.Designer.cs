@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ReactDbContext))]
-    [Migration("20210901232549_v_initial")]
+    [Migration("20210906034936_v_initial")]
     partial class v_initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1451,6 +1451,38 @@ namespace API.Migrations
                     b.HasIndex("districtId");
 
                     b.ToTable("Thana", "MasterData");
+                });
+
+            modelBuilder.Entity("API.Data.Entity.TestEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int?>("IsDelete")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestEntities");
                 });
 
             modelBuilder.Entity("API.Models.MasterData.Gender", b =>
