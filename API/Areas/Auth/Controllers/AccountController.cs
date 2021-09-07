@@ -94,6 +94,7 @@ namespace API.Areas.Auth.Controllers
                     if (message == "success")
                     {
                         empFileName = fileName;
+                        var baseUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
 
                         var user = new ApplicationUser
                         {
@@ -103,7 +104,7 @@ namespace API.Areas.Auth.Controllers
                             PhoneNumber = model.Phone,
                             EmployeeCode = await _userService.GenerateEmployeeCode(),
                             //genderId = model.genderId,
-                            ImgUrl = empFileName,
+                            ImgUrl = baseUrl + "/" + empFileName,
                             //Address = model.address,
                             IsVerified = false,
                             IsDeleted = false,

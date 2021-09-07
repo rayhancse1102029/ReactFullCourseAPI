@@ -15,7 +15,7 @@ using API.Service.Helper.Interfaces;
 namespace API.Areas.Auth.Controllers
 {
     [Area("Auth")]
-    [Authorize(Roles = ("Developer, SuperAdmin, Admin, SubAdmin"))]
+    //[Authorize(Roles = ("Developer, SuperAdmin, Admin, SubAdmin"))]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
