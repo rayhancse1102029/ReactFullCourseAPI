@@ -25,7 +25,6 @@ namespace API.Data
             this._httpContextAccessor = _httpContextAccessor;
         }
 
-
         #region Auth
         public DbSet<AspNetCompanyRoles> AspNetCompanyRoles { get; set; }
         public DbSet<NavModule> NavModules { get; set; }
@@ -63,7 +62,6 @@ namespace API.Data
 
         #endregion
 
-        public DbSet<TestEntity> TestEntities { get; set; }
 
         #region Settings Configs
         public override int SaveChanges()
